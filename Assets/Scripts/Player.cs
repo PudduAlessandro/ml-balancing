@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
     }
 
     // Update is called once per frame

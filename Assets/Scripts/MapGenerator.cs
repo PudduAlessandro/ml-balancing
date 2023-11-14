@@ -10,9 +10,10 @@ using UnityEngine.UIElements;
 public class MapGenerator : MonoBehaviour
 {
     private Tilemap _tilemap;
-    //[SerializeField] private Sprite[] tilemapSprites;
-    //private List<Tile> _tiles = new List<Tile>();
-    [SerializeField] private Tile[] _tiles;
+    public Vector3Int player1Spawn, player2Spawn;
+    public GameObject playerPrefab;
+
+    [SerializeField] private Tile[] tiles;
 
     private int[][] _mapArray;
 
@@ -20,7 +21,7 @@ public class MapGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
 
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
@@ -52,13 +53,32 @@ public class MapGenerator : MonoBehaviour
             xCoord = 0;
             foreach (string x in y.Split(" "))
             {
-                _tilemap.SetTile(new Vector3Int(xCoord, -yCoord), _tiles[int.Parse(x)]);
+                _tilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
+                
+                if (int.Parse(x) == 4)
+                {
+                    player1Spawn = new Vector3Int(xCoord, -yCoord, 0);
+                } else if (int.Parse(x) == 5)
+                {
+                    player2Spawn = new Vector3Int(xCoord, -yCoord, 0);
+                }
 
                 xCoord++;
             }
 
             yCoord++;
         }
+
+        SpawnPlayers();
+    }
+
+    private void SpawnPlayers()
+    {
+        GameObject player1 = Instantiate(playerPrefab, _tilemap.transform.parent.transform);
+        player1.transform.position = _tilemap.CellToWorld(player1Spawn) + new Vector3(0.5f, 0.5f, 0);
+        
+        GameObject player2 = Instantiate(playerPrefab, _tilemap.transform.parent.transform);
+        player2.transform.position = _tilemap.CellToWorld(player2Spawn) + new Vector3(0.5f, 0.5f, 0);;
     }
 
     void CreateTiles()
