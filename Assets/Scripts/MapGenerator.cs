@@ -42,7 +42,7 @@ public class MapGenerator : MonoBehaviour
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
         
-        string mapString = File.ReadAllText("Assets/Ressources/map1.txt");
+        string mapString = File.ReadAllText("Assets/Ressources/map2.txt");
 
         int xCoord = 0;
         int yCoord = 0;

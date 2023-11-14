@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,11 +14,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 3;
     private Vector2 _movementDirection;
 
+    private Tilemap _tilemap;
+    private Tile _selectedTile = null;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
     }
 
     // Update is called once per frame
@@ -33,6 +37,17 @@ public class PlayerController : MonoBehaviour
         { 
             gameObject.transform.rotation = Quaternion.LookRotation(transform.forward, _movementDirection * (_rotationSpeed * Time.deltaTime));  
         }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+           Vector3Int tilemapPos = _tilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+           
+           _selectedTile = _tilemap.GetTile<Tile>(tilemapPos);
+           
+           Debug.Log(new Vector2Int(tilemapPos.x, tilemapPos.y));
+        }
+        
+        
        
     }
 }
