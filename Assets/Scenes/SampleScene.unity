@@ -366,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 484454646}
   - component: {fileID: 484454645}
+  - component: {fileID: 484454647}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -385,7 +386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b21c4a66bf22d41952fc63dfd78fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tileMap: {fileID: 681909664}
+  playerPrefab: {fileID: 336648844322098343, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+  _tilemap: {fileID: 0}
 --- !u!4 &484454646
 Transform:
   m_ObjectHideFlags: 0
@@ -401,6 +403,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484454647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484454644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e1860dde0174649be1cbaeb9eaaa3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1Spawn: {x: 0, y: 0, z: 0}
+  player2Spawn: {x: 0, y: 0, z: 0}
+  playerPrefab: {fileID: 0}
+  tiles:
+  - {fileID: 11400000, guid: 9e57d5cfb4065fc4a95d3fb65dfd4633, type: 2}
+  - {fileID: 11400000, guid: 7df473665e9faf144b35976b58f49067, type: 2}
+  - {fileID: 11400000, guid: 58ac15feef45b964ba44ee24a13eac4b, type: 2}
+  - {fileID: 11400000, guid: 4e7ed6c98c3c36a44a02d2204f8856a2, type: 2}
+  - {fileID: 11400000, guid: 7a7498874356d6e42b7e2d6f4ff7dd63, type: 2}
+  - {fileID: 11400000, guid: 99d8d97cc3bf6df46b52a019bca712f7, type: 2}
+  - {fileID: 11400000, guid: 721927d1fe7a8fc449882ebca79a4371, type: 2}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

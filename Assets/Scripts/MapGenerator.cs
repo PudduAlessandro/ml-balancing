@@ -26,9 +26,6 @@ public class MapGenerator : MonoBehaviour
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
         
-        CreateTiles();
-        LoadMap();
-        
         
     }
 
@@ -38,8 +35,10 @@ public class MapGenerator : MonoBehaviour
         
     }
 
-    void LoadMap()
+    // TODO: Add parameter for map file
+    public Tilemap BuildMap()
     {
+
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
         
@@ -69,17 +68,10 @@ public class MapGenerator : MonoBehaviour
             yCoord++;
         }
 
-        SpawnPlayers();
+        return _tilemap;
     }
 
-    private void SpawnPlayers()
-    {
-        GameObject player1 = Instantiate(playerPrefab, _tilemap.transform.parent.transform);
-        player1.transform.position = _tilemap.CellToWorld(player1Spawn) + new Vector3(0.5f, 0.5f, 0);
-        
-        GameObject player2 = Instantiate(playerPrefab, _tilemap.transform.parent.transform);
-        player2.transform.position = _tilemap.CellToWorld(player2Spawn) + new Vector3(0.5f, 0.5f, 0);;
-    }
+    
 
     void CreateTiles()
     {
