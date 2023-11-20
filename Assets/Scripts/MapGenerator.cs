@@ -11,7 +11,6 @@ public class MapGenerator : MonoBehaviour
 {
     private Tilemap _tilemap;
     public Vector3Int player1Spawn, player2Spawn;
-    public GameObject playerPrefab;
 
     [SerializeField] private Tile[] tiles;
 
@@ -19,12 +18,9 @@ public class MapGenerator : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
-
-        BoundsInt bounds = _tilemap.cellBounds;
-        TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
+        
         
         
     }
@@ -38,6 +34,7 @@ public class MapGenerator : MonoBehaviour
     // TODO: Add parameter for map file
     public Tilemap BuildMap()
     {
+        _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
 
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
