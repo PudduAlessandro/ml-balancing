@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
     private Tilemap _tilemap;
     public Vector3Int player1Spawn, player2Spawn;
 
-    [SerializeField] private Tile[] tiles;
+    [SerializeField] public Tile[] tiles;
 
     private int[][] _mapArray;
 

@@ -123,7 +123,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8892089489044540395
 Transform:
   m_ObjectHideFlags: 0
@@ -212,6 +212,8 @@ MonoBehaviour:
   _currentThirst: 0
   _rotationSpeed: 3
   isPlayerTwo: 0
+  currentPosition: {x: 0, y: 0, z: 0}
+  selectionTile: {fileID: 11400000, guid: b447ff297fa36ab419b6aa1ac2275958, type: 2}
 --- !u!114 &7696615433049806139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +243,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5795678487260174421}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: SelectAbove
+        m_MethodName: Selection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -257,7 +259,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5795678487260174421}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: SelectBelow
+        m_MethodName: Selection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -273,7 +275,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5795678487260174421}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: SelectLeft
+        m_MethodName: Selection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -289,7 +291,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5795678487260174421}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: SelectRight
+        m_MethodName: Selection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -305,7 +307,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5795678487260174421}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: Confirm
+        m_MethodName: Selection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -321,7 +323,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5795678487260174421}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: Cancel
+        m_MethodName: Selection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

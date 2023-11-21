@@ -67,8 +67,8 @@ public class GameController : MonoBehaviour
         // Update Position in Player class
         _player1 = p1Input.gameObject.GetComponent<Player>();
         _player1.currentPosition = mapGenerator.player1Spawn;
-        
-        
+
+
         PlayerInput p2Input = PlayerInput.Instantiate(playerPrefab, 2, "Player2", pairWithDevice: Keyboard.current);
         
         p2Input.transform.SetParent(parentTransform);

@@ -20,18 +20,21 @@ public class Player : MonoBehaviour
     // Controls related
     public bool isPlayerTwo;
     private PlayerInput _playerInput;
-    private PlayerControls _playerControls = null;
+    //private PlayerControls _playerControls = null;
 
     // Map related
-    private Tilemap _tilemap;
-    private Tile _selectedTile = null;
     public Vector3Int currentPosition;
+    private Tilemap _tilemap, _overlayMap;
+    //private Tile _selectedTile = null;
+    private Vector3Int _tempSelectedPosition = Vector3Int.zero, _selectedPosition = Vector3Int.zero;
+    [SerializeField] private Tile selectionTile;
 
 
     // Start is called before the first frame update
     void Start()
     {
         _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
+        _overlayMap = GameObject.Find("OverlayTilemap").GetComponent<Tilemap>();
     }
 
     // Update is called once per frame
@@ -40,52 +43,47 @@ public class Player : MonoBehaviour
 
     }
 
-    public void SelectAbove(InputAction.CallbackContext value)
+    public void Selection(InputAction.CallbackContext value)
     {
-        if (value.performed)
+        if (!value.performed) return;
+        switch (value.action.name)
         {
-            CheckTile(currentPosition + new Vector3Int(0, 1, 0));
+            case "Select Above Tile":
+            {
+                _tempSelectedPosition = currentPosition + new Vector3Int(0, 1, 0);
+                break;
+            }
+            case "Select Below Tile":
+            {
+                _tempSelectedPosition = currentPosition + new Vector3Int(0, -1, 0);
+                break;
+            } 
+            case "Select Left Tile":
+            {
+                _tempSelectedPosition = currentPosition + new Vector3Int(-1, 0, 0);
+                break;
+            } 
+            case "Select Right Tile":
+            {
+                _tempSelectedPosition = currentPosition + new Vector3Int(1, 0, 0);
+                break;
+            }
+            case "Confirm":
+            {
+                break;
+            }
+            case "Cancel":
+            {
+                break;
+            }
         }
-    }
 
-    public void SelectBelow(InputAction.CallbackContext value)
-    {
-        if (value.performed)
+        if (CheckTile(_tempSelectedPosition) != null)
         {
-            CheckTile(currentPosition + new Vector3Int(0, -1, 0));
-        }
-    }
-
-    public void SelectLeft(InputAction.CallbackContext value)
-    {
-        if (value.performed)
-        {
-            CheckTile(currentPosition + new Vector3Int(-1, 0, 0));
-        }
-    }
-
-    public void SelectRight(InputAction.CallbackContext value)
-    {
-        if (value.performed)
-        {
-            CheckTile(currentPosition + new Vector3Int(1, 0, 0));
-        }
-    }
-
-    public void Confirm(InputAction.CallbackContext value)
-    {
-        if (value.performed)
-        {
-            Debug.Log("performed");
-        }
-    }
-
-    public void Cancel(InputAction.CallbackContext value)
-    {
-        if (value.performed)
-        {
-            Debug.Log("performed");
-        }
+            _overlayMap.ClearAllTiles();
+            _selectedPosition = _tempSelectedPosition;
+            _overlayMap.SetTile(_selectedPosition, selectionTile);
+        };
     }
 
     private TileBase CheckTile(Vector3Int tileToCheckPos)
@@ -95,14 +93,12 @@ public class Player : MonoBehaviour
         {
            TileBase tileBase = _tilemap.GetTile(tileToCheckPos);
            Debug.Log(tileBase.name);
-           
-           return tileBase; 
+           if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST"))
+           {
+               return tileBase;
+           }
         }
-        else
-        {
-            Debug.Log("Invalid Choice!");
-        }
-
+        Debug.Log("Invalid Choice!");
         return null;
     }
 
