@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.iOS;
 using UnityEngine.Tilemaps;
 
 public class GameController : MonoBehaviour
@@ -27,8 +29,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         mapGenerator = gameObject.GetComponent<MapGenerator>();
-        //_player1 = GameObject.Find("Player1").GetComponent<Player>();
-        //_player2 = GameObject.Find("Player2").GetComponent<Player>();
 
         _tilemap = mapGenerator.BuildMap();
         SpawnPlayers();
@@ -57,12 +57,26 @@ public class GameController : MonoBehaviour
     {
         Transform parentTransform = _tilemap.transform.parent;
         
-        GameObject player1 = Instantiate(playerPrefab, parentTransform);
-        player1.transform.position = _tilemap.CellToWorld(mapGenerator.player1Spawn) + new Vector3(0.5f, 0.5f, 0);
+        // Instantiate
+        PlayerInput p1Input = PlayerInput.Instantiate(playerPrefab, 1, "Player1", pairWithDevice: Keyboard.current);
+        
+        // Set Transform and Position
+        p1Input.transform.SetParent(parentTransform);
+        p1Input.gameObject.transform.position = _tilemap.CellToWorld(mapGenerator.player1Spawn) + new Vector3(0.5f, 0.5f, 0);
+        
+        // Update Position in Player class
+        _player1 = p1Input.gameObject.GetComponent<Player>();
+        _player1.currentPosition = mapGenerator.player1Spawn;
+        
+        
+        PlayerInput p2Input = PlayerInput.Instantiate(playerPrefab, 2, "Player2", pairWithDevice: Keyboard.current);
+        
+        p2Input.transform.SetParent(parentTransform);
+        p2Input.gameObject.transform.position = _tilemap.CellToWorld(mapGenerator.player2Spawn) + new Vector3(0.5f, 0.5f, 0);
+        
+        _player2 = p2Input.gameObject.GetComponent<Player>();
+        _player2.currentPosition = mapGenerator.player2Spawn;
+        
 
-        GameObject player2 = Instantiate(playerPrefab, parentTransform);
-        player2.transform.position = _tilemap.CellToWorld(mapGenerator.player2Spawn) + new Vector3(0.5f, 0.5f, 0);
-        player2.GetComponent<Player>().isPlayerTwo = true;
-        player2.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Player2");
     }
 }
