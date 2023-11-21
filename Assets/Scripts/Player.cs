@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
@@ -24,23 +25,35 @@ public class Player : MonoBehaviour
 
     // Map related
     public Vector3Int currentPosition;
-    private Tilemap _tilemap, _overlayMap;
+    private Tilemap _tilemap;
+    public Tilemap overlayMap;
+    
     //private Tile _selectedTile = null;
-    private Vector3Int _tempSelectedPosition = Vector3Int.zero, _selectedPosition = Vector3Int.zero;
-    [SerializeField] private Tile selectionTile;
+    private Vector3Int _tempSelectedPosition = Vector3Int.zero;
+    public Vector3Int selectedPosition = Vector3Int.zero;
+    private Tile _selectionTile;
 
 
     // Start is called before the first frame update
     void Start()
     {
         _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
-        _overlayMap = GameObject.Find("OverlayTilemap").GetComponent<Tilemap>();
+        //_overlayMap = GameObject.Find("Overlay").GetComponent<Tilemap>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    public void SetupPlayer(Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile)
+    {
+        gameObject.transform.parent = parentTransform;
+        gameObject.transform.position = map.CellToWorld(spawnPosition) + new Vector3(0.5f, 0.5f, 0);
+        currentPosition = spawnPosition;
+        overlayMap = overlayTilemap;
+        _selectionTile = playerSelectionTile;
     }
 
     public void Selection(InputAction.CallbackContext value)
@@ -80,9 +93,9 @@ public class Player : MonoBehaviour
 
         if (CheckTile(_tempSelectedPosition) != null)
         {
-            _overlayMap.ClearAllTiles();
-            _selectedPosition = _tempSelectedPosition;
-            _overlayMap.SetTile(_selectedPosition, selectionTile);
+            overlayMap.ClearAllTiles();
+            selectedPosition = _tempSelectedPosition;
+            overlayMap.SetTile(selectedPosition, _selectionTile);
         };
     }
 
