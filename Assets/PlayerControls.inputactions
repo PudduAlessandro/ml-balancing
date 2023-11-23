@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Confirm Turn",
+                    "name": "Confirm",
                     "type": "Button",
                     "id": "f1255886-838c-4038-8d29-ab73c42c3a72",
                     "expectedControlType": "Button",
@@ -156,7 +156,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player1",
-                    "action": "Confirm Turn",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -167,7 +167,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player2",
-                    "action": "Confirm Turn",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

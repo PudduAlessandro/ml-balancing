@@ -64,7 +64,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Confirm Turn"",
+                    ""name"": ""Confirm"",
                     ""type"": ""Button"",
                     ""id"": ""f1255886-838c-4038-8d29-ab73c42c3a72"",
                     ""expectedControlType"": ""Button"",
@@ -178,7 +178,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Confirm Turn"",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -189,7 +189,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player2"",
-                    ""action"": ""Confirm Turn"",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -249,7 +249,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Selection_SelectBelowTile = m_Selection.FindAction("Select Below Tile", throwIfNotFound: true);
         m_Selection_SelectLeftTile = m_Selection.FindAction("Select Left Tile", throwIfNotFound: true);
         m_Selection_SelectRightTile = m_Selection.FindAction("Select Right Tile", throwIfNotFound: true);
-        m_Selection_ConfirmTurn = m_Selection.FindAction("Confirm Turn", throwIfNotFound: true);
+        m_Selection_Confirm = m_Selection.FindAction("Confirm", throwIfNotFound: true);
         m_Selection_Cancel = m_Selection.FindAction("Cancel", throwIfNotFound: true);
     }
 
@@ -316,7 +316,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Selection_SelectBelowTile;
     private readonly InputAction m_Selection_SelectLeftTile;
     private readonly InputAction m_Selection_SelectRightTile;
-    private readonly InputAction m_Selection_ConfirmTurn;
+    private readonly InputAction m_Selection_Confirm;
     private readonly InputAction m_Selection_Cancel;
     public struct SelectionActions
     {
@@ -326,7 +326,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @SelectBelowTile => m_Wrapper.m_Selection_SelectBelowTile;
         public InputAction @SelectLeftTile => m_Wrapper.m_Selection_SelectLeftTile;
         public InputAction @SelectRightTile => m_Wrapper.m_Selection_SelectRightTile;
-        public InputAction @ConfirmTurn => m_Wrapper.m_Selection_ConfirmTurn;
+        public InputAction @Confirm => m_Wrapper.m_Selection_Confirm;
         public InputAction @Cancel => m_Wrapper.m_Selection_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Selection; }
         public void Enable() { Get().Enable(); }
@@ -349,9 +349,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SelectRightTile.started += instance.OnSelectRightTile;
             @SelectRightTile.performed += instance.OnSelectRightTile;
             @SelectRightTile.canceled += instance.OnSelectRightTile;
-            @ConfirmTurn.started += instance.OnConfirmTurn;
-            @ConfirmTurn.performed += instance.OnConfirmTurn;
-            @ConfirmTurn.canceled += instance.OnConfirmTurn;
+            @Confirm.started += instance.OnConfirm;
+            @Confirm.performed += instance.OnConfirm;
+            @Confirm.canceled += instance.OnConfirm;
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
@@ -371,9 +371,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SelectRightTile.started -= instance.OnSelectRightTile;
             @SelectRightTile.performed -= instance.OnSelectRightTile;
             @SelectRightTile.canceled -= instance.OnSelectRightTile;
-            @ConfirmTurn.started -= instance.OnConfirmTurn;
-            @ConfirmTurn.performed -= instance.OnConfirmTurn;
-            @ConfirmTurn.canceled -= instance.OnConfirmTurn;
+            @Confirm.started -= instance.OnConfirm;
+            @Confirm.performed -= instance.OnConfirm;
+            @Confirm.canceled -= instance.OnConfirm;
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
@@ -418,7 +418,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSelectBelowTile(InputAction.CallbackContext context);
         void OnSelectLeftTile(InputAction.CallbackContext context);
         void OnSelectRightTile(InputAction.CallbackContext context);
-        void OnConfirmTurn(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
     }
 }

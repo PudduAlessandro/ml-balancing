@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private Vector3Int _tempSelectedPosition = Vector3Int.zero;
     public Vector3Int selectedPosition = Vector3Int.zero;
     private Tile _selectionTile;
+    public bool turnConfirmed = false; 
 
 
     // Start is called before the first frame update
@@ -83,11 +84,19 @@ public class Player : MonoBehaviour
             }
             case "Confirm":
             {
-                break;
+                if (selectedPosition != Vector3Int.zero)
+                {
+                    turnConfirmed = true;
+                }
+                return;
             }
             case "Cancel":
             {
-                break;
+                if (turnConfirmed)
+                {
+                    turnConfirmed = false;
+                }
+                return;
             }
         }
 
@@ -105,8 +114,7 @@ public class Player : MonoBehaviour
         if (!CheckForOutOfBounds(tileToCheckPos))
         {
            TileBase tileBase = _tilemap.GetTile(tileToCheckPos);
-           Debug.Log(tileBase.name);
-           if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST"))
+           if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST") || tileBase.name.Equals("5_P1SPAWN") || tileBase.name.Equals("6_P2SPAWN"))
            {
                return tileBase;
            }
