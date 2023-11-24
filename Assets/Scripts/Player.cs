@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -10,12 +11,14 @@ using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour
 {
     // Core gameplay stats
-    [Range(0, 50)] [SerializeField]
-    private int _maxHealth, _currentHealth, _maxHunger, _currentHunger, _maxThirst, _currentThirst;
+    [Range(0, 100)] public int currentHealth = 100, currentHunger = 100, currentThirst = 100;
+    
+    // max values in case range attribute doesnt do its thing
+    private int _maxHealth = 100, _maxHunger = 100,_maxThirst = 100;
 
     // Misc stats (movement, interactions)
     [SerializeField] private readonly float _moveSpeed = 3;
-    [SerializeField] private float _rotationSpeed = 3;
+    [FormerlySerializedAs("_rotationSpeed")] [SerializeField] private float rotationSpeed = 3;
     private Vector2 _movementDirection;
 
     // Controls related
@@ -27,7 +30,8 @@ public class Player : MonoBehaviour
     public Vector3Int currentPosition;
     private Tilemap _tilemap;
     public Tilemap overlayMap;
-    
+    private int _foodRestoreAmount = 20, _thirstRestoreAmount = 20, _healthRestoreAmount = 10;
+
     //private Tile _selectedTile = null;
     private Vector3Int _tempSelectedPosition = Vector3Int.zero;
     public Vector3Int selectedPosition = Vector3Int.zero;
@@ -55,6 +59,10 @@ public class Player : MonoBehaviour
         currentPosition = spawnPosition;
         overlayMap = overlayTilemap;
         _selectionTile = playerSelectionTile;
+        
+        currentHealth = 100;
+        currentHunger = 100;
+        currentThirst = 100;
     }
 
     public void Selection(InputAction.CallbackContext value)
@@ -84,7 +92,7 @@ public class Player : MonoBehaviour
             }
             case "Confirm":
             {
-                if (selectedPosition != Vector3Int.zero)
+                if (selectedPosition != Vector3Int.forward)
                 {
                     turnConfirmed = true;
                 }
@@ -114,17 +122,104 @@ public class Player : MonoBehaviour
         if (!CheckForOutOfBounds(tileToCheckPos))
         {
            TileBase tileBase = _tilemap.GetTile(tileToCheckPos);
-           if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST") || tileBase.name.Equals("5_P1SPAWN") || tileBase.name.Equals("6_P2SPAWN"))
+           if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST") || tileBase.name.Equals("5_P1SPAWN") || tileBase.name.Equals("6_P2SPAWN") || tileBase.name.Equals("7_FORESTUSED"))
            {
                return tileBase;
            }
         }
-        Debug.Log("Invalid Choice!");
         return null;
     }
 
     private bool CheckForOutOfBounds(Vector3Int tileToCheckPos)
     {
         return (tileToCheckPos.x is > 5 or < 0 || tileToCheckPos.y is > 0 or < -5);
+    }
+
+    public void FinishTurn(Vector3Int newPosition)
+    {
+        turnConfirmed = false;
+        currentPosition = newPosition;
+        selectedPosition = Vector3Int.forward;
+        overlayMap.ClearAllTiles();
+
+        currentHunger -= 10;
+        currentThirst -= 10;
+        
+        FoodCheck();
+        WaterCheck(currentPosition);
+
+        currentHunger = Mathf.Clamp(currentHunger, 0, 100);
+        currentThirst = Mathf.Clamp(currentThirst, 0, 100);
+
+        UpdateHealth();
+        
+    }
+
+    private void UpdateHealth()
+    {
+        if (currentHunger == 0 || currentThirst == 0)
+        {
+            currentHealth -= 10;
+        }
+        else
+        {
+            currentHealth += _healthRestoreAmount;
+        }
+
+        currentHealth = Mathf.Clamp(currentHealth, 0, 100);
+
+    }
+
+    private void WaterCheck(Vector3Int tileToCheck)
+    {
+        List<TileBase> nearbyTiles = new List<TileBase>();
+
+        if (_tilemap.GetTile(tileToCheck + new Vector3Int(0, 1, 0)) != null)
+        {
+            nearbyTiles.Add(_tilemap.GetTile(tileToCheck + new Vector3Int(0, 1, 0)));
+        }
+        
+        if (_tilemap.GetTile(tileToCheck + new Vector3Int(1, 0, 0)) != null)
+        {
+            nearbyTiles.Add(_tilemap.GetTile(tileToCheck + new Vector3Int(1, 0, 0)));
+        }
+        
+        if (_tilemap.GetTile(tileToCheck + new Vector3Int(0, -1, 0)) != null)
+        {
+            nearbyTiles.Add(_tilemap.GetTile(tileToCheck + new Vector3Int(0, -1, 0)));
+        }
+        
+        if (_tilemap.GetTile(tileToCheck + new Vector3Int(-1, 0, 0)) != null)
+        {
+            nearbyTiles.Add(_tilemap.GetTile(tileToCheck + new Vector3Int(-1, 0, 0)));
+        }
+
+        if (nearbyTiles.Any(tile => tile.name.Equals("4_WATER")))
+        {
+            currentThirst += _thirstRestoreAmount;
+        }
+
+    }
+
+    private void FoodCheck()
+    {
+        TileBase currentTile = CheckTile(currentPosition);
+
+        if (currentTile.name.Equals("3_FOREST"))
+        {
+            Eat();
+        }
+    }
+
+    private void Eat()
+    {
+        if (currentHunger + _foodRestoreAmount >= _maxHunger)
+        {
+            currentHunger = _maxHunger;
+        }
+        else
+        {
+            currentHunger += _foodRestoreAmount;
+        }
     }
 }
