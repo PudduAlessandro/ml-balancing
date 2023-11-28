@@ -1354,7 +1354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b21c4a66bf22d41952fc63dfd78fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 2908584425829728867, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+  playerPrefab: {fileID: 2908584425829728867, guid: 2cf6cca20020e004cb24dc0750b143a9, type: 3}
   tilemap: {fileID: 681909664}
   p1Overlay: {fileID: 414465946}
   p2Overlay: {fileID: 743792672}
@@ -3540,9 +3540,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 569204063271658673, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 569204063271658673, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2908584425829728867, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247533894328160210, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247533894328160210, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103944453577855479, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103944453577855479, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8892089489044540395, guid: 43ed8fb8a82ed424490271ef6afe3695, type: 3}
       propertyPath: m_LocalPosition.x

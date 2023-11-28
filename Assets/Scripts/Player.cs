@@ -36,7 +36,10 @@ public class Player : MonoBehaviour
     private Vector3Int _tempSelectedPosition = Vector3Int.zero;
     public Vector3Int selectedPosition = Vector3Int.zero;
     private Tile _selectionTile;
-    public bool turnConfirmed = false; 
+    public bool turnConfirmed = false;
+    
+    // UI stuff
+    private StatusBarController healthBar, hungerBar, thirstBar;
 
 
     // Start is called before the first frame update
@@ -63,6 +66,8 @@ public class Player : MonoBehaviour
         currentHealth = 100;
         currentHunger = 100;
         currentThirst = 100;
+
+        SetupStatusBars();
     }
 
     public void Selection(InputAction.CallbackContext value)
@@ -153,6 +158,10 @@ public class Player : MonoBehaviour
 
         UpdateHealth();
         
+        healthBar.UpdateStatusBar(currentHealth);
+        hungerBar.UpdateStatusBar(currentHunger);
+        thirstBar.UpdateStatusBar(currentThirst);
+        
     }
 
     private void UpdateHealth()
@@ -166,7 +175,8 @@ public class Player : MonoBehaviour
             currentHealth += _healthRestoreAmount;
         }
 
-        currentHealth = Mathf.Clamp(currentHealth, 0, 100);
+        currentHealth = Mathf.Clamp(currentHealth, 0, _maxHealth);
+        
 
     }
 
@@ -221,5 +231,19 @@ public class Player : MonoBehaviour
         {
             currentHunger += _foodRestoreAmount;
         }
+    }
+    
+    private void SetupStatusBars()
+    {
+        Transform statusBarsTransform = gameObject.transform.Find("UI Canvas").Find("StatusBars");
+
+        healthBar = statusBarsTransform.Find("Health Bar").GetComponent<StatusBarController>();
+        hungerBar = statusBarsTransform.Find("Hunger Bar").GetComponent<StatusBarController>();
+        thirstBar = statusBarsTransform.Find("Thirst Bar").GetComponent<StatusBarController>();
+        
+        
+        healthBar.SetMaxStatusValue(_maxHealth);
+        hungerBar.SetMaxStatusValue(_maxHunger);
+        thirstBar.SetMaxStatusValue(_maxThirst);
     }
 }
