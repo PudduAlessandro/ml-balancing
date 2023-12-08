@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
 {
     // Core gameplay stats
     [Range(0, 100)] public int currentHealth = 100, currentHunger = 100, currentThirst = 100;
+
+    public int collectedFood;
     
     // max values in case range attribute doesnt do its thing
     private int _maxHealth = 100, _maxHunger = 100,_maxThirst = 100;
@@ -25,6 +27,14 @@ public class Player : MonoBehaviour
     public bool isPlayerTwo;
     private PlayerInput _playerInput;
     //private PlayerControls _playerControls = null;
+
+    public enum PlayerType
+    {
+        HUMAN,
+        COMPUTER
+    };
+
+    public PlayerType playerType;
 
     // Map related
     public Vector3Int currentPosition;
@@ -55,8 +65,12 @@ public class Player : MonoBehaviour
 
     }
 
-    public void SetupPlayer(Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile)
+    public void SetupPlayer(Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile, bool isHumanPlayer)
     {
+
+        playerType = isHumanPlayer ? PlayerType.HUMAN : PlayerType.COMPUTER;
+
+        _tilemap = map;
         gameObject.transform.parent = parentTransform;
         gameObject.transform.position = map.CellToWorld(spawnPosition) + new Vector3(0.5f, 0.5f, 0);
         currentPosition = spawnPosition;
@@ -68,9 +82,13 @@ public class Player : MonoBehaviour
         currentThirst = 100;
 
         SetupStatusBars();
+
+        if (playerType != PlayerType.COMPUTER) return;
+        GetComponent<PlayerInput>().enabled = false;
+        CPUInput();
     }
 
-    public void Selection(InputAction.CallbackContext value)
+    private void HumanInput(InputAction.CallbackContext value)
     {
         if (!value.performed) return;
         switch (value.action.name)
@@ -119,6 +137,52 @@ public class Player : MonoBehaviour
             selectedPosition = _tempSelectedPosition;
             overlayMap.SetTile(selectedPosition, _selectionTile);
         };
+    }
+
+    public void CPUInput()
+    {
+        bool validTurn = false;
+
+        do
+        {
+            int randomAction = Random.Range(0, 4);
+
+            switch (randomAction)
+            {
+                case 0: // UP
+                {
+                    _tempSelectedPosition = currentPosition + new Vector3Int(0, 1, 0);
+                    break;
+                }
+                case 1: // DOWN
+                {
+                    _tempSelectedPosition = currentPosition + new Vector3Int(0, -1, 0);
+                    break;
+                }
+                case 2: // LEFT
+                {
+                    _tempSelectedPosition = currentPosition + new Vector3Int(-1, 0, 0);
+                    break;
+                }
+                case 3: // RIGHT
+                {
+                    _tempSelectedPosition = currentPosition + new Vector3Int(1, 0, 0);
+                    break;
+                }
+            }
+
+            if (CheckTile(_tempSelectedPosition) != null)
+            {
+                overlayMap.ClearAllTiles();
+                selectedPosition = _tempSelectedPosition;
+                overlayMap.SetTile(selectedPosition, _selectionTile);
+                validTurn = true;
+            }
+
+            ;
+        } while (validTurn == false);
+
+        turnConfirmed = true;
     }
 
     private TileBase CheckTile(Vector3Int tileToCheckPos)
@@ -218,6 +282,7 @@ public class Player : MonoBehaviour
         if (currentTile.name.Equals("3_FOREST"))
         {
             Eat();
+            collectedFood++;
         }
     }
 
