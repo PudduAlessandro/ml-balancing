@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -15,6 +12,9 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] public Tile[] tiles;
 
     private int[][] _mapArray;
+
+    private string mapString;
+    private string tempMapString = "2 3 0 2 0 2,0 0 0 2 2 0,2 5 0 2 0 2,2 0 0 1 1 0,2 0 1 1 1 4,2 1 2 0 2 0";
 
 
     // Start is called before the first frame update
@@ -38,13 +38,23 @@ public class MapGenerator : MonoBehaviour
 
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            //StartCoroutine(GetFile(Application.streamingAssetsPath + "/Maps/map2.txt"));
+
+        }
+        else
+        {
+           //mapString = File.ReadAllText(Application.streamingAssetsPath + "/Maps/map2.txt"); 
+        }
         
-        string mapString = File.ReadAllText("Assets/Ressources/map2.txt");
+        
 
         int xCoord = 0;
         int yCoord = 0;
 
-        foreach (string y in mapString.Split(","))
+        foreach (string y in tempMapString.Split(","))
         {
             xCoord = 0;
             foreach (string x in y.Split(" "))
@@ -68,7 +78,17 @@ public class MapGenerator : MonoBehaviour
         return _tilemap;
     }
 
-    
+    private IEnumerator GetFile(string path)
+    {
+        var webRequest = UnityWebRequest.Get(path);
+
+        yield return webRequest.SendWebRequest();
+
+        if (webRequest.result != UnityWebRequest.Result.Success) yield break;
+        Debug.Log(webRequest.downloadHandler.text);
+        mapString = webRequest.downloadHandler.text;
+    }
+
 
     void CreateTiles()
     {

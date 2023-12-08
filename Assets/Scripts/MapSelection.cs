@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using Directory = UnityEngine.Windows.Directory;
 
 public class MapSelection : MonoBehaviour
 {
@@ -25,7 +24,7 @@ public class MapSelection : MonoBehaviour
     
     private void LoadMapFiles()
     {
-        DirectoryInfo mapFileDir = new DirectoryInfo(Application.dataPath + "/Ressources/maps");
+        DirectoryInfo mapFileDir = new DirectoryInfo(Application.streamingAssetsPath + "/Maps");
 
         FileInfo[] maps = mapFileDir.GetFiles();
 

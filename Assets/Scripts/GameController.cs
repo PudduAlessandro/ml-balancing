@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -22,9 +24,21 @@ public class GameController : MonoBehaviour
     [FormerlySerializedAs("_player2Confirm")] [SerializeField] private bool player2Confirm = false;
     //private int _playerMoveSpeed = 1; // Used for smooth movement
     public int turnCount = 0;
+
+    private int _collectionGoal = 5;
+    
     
     // UI
     private UIController _uiController;
+
+    private enum GameType
+    {
+        PVP,
+        PVE,
+        EVE
+    }
+
+    [SerializeField] private GameType _gameType;
 
     
     
@@ -32,6 +46,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         _mapGenerator = gameObject.GetComponent<MapGenerator>();
 
         _uiController = GameObject.Find("UIController").GetComponent<UIController>();
@@ -60,6 +75,43 @@ public class GameController : MonoBehaviour
     {
         
     }
+    
+    private void SpawnPlayers()
+    {
+        Transform parentTransform = tilemap.transform.parent;
+        bool player1IsHuman = true;
+        bool player2IsHuman = true;
+
+        switch (_gameType)
+        {
+            case GameType.PVP: 
+                break;
+            case GameType.PVE:
+                player2IsHuman = false;
+                break;
+            case GameType.EVE:
+                player1IsHuman = false;
+                player2IsHuman = false;
+                break;
+        }
+        
+        // Instantiate
+        PlayerInput p1Input = PlayerInput.Instantiate(playerPrefab, 1, "Player1", pairWithDevice: Keyboard.current);
+        p1Input.gameObject.name = "Player 1";
+        p1Input.GetComponent<Player>().SetupPlayer(parentTransform, p1Overlay, tilemap, _mapGenerator.player1Spawn, p1SelectionTile, player1IsHuman);
+        _player1 = p1Input.gameObject.GetComponent<Player>();
+        _uiController.player1 = _player1;
+
+
+        PlayerInput p2Input = PlayerInput.Instantiate(playerPrefab, 2, "Player2", pairWithDevice: Keyboard.current);
+        p2Input.gameObject.name = "Player 2";
+        
+        
+        p2Input.GetComponent<Player>().SetupPlayer(parentTransform, p2Overlay, tilemap, _mapGenerator.player2Spawn, p2SelectionTile, player2IsHuman);
+        _player2 = p2Input.gameObject.GetComponent<Player>();
+        _uiController.player2 = _player2;
+        
+    }
 
     private void PlayTurn(Vector3Int player1SelectedTile, Vector3Int player2SelectedTile)
     {
@@ -79,32 +131,65 @@ public class GameController : MonoBehaviour
             tilemap.SetTile(_player2.currentPosition, _mapGenerator.tiles[6]);
         }
 
-        CheckForWinner();
+        if (CheckForWinner())
+        {
+            return;
+        }
         
         turnCount++;
+
+        if (_gameType == GameType.EVE)
+        {
+            StartCoroutine(CPUvsCPUTurn());
+        }
+        
+        if (_player1.playerType == Player.PlayerType.COMPUTER)
+        {
+            _player1.CPUInput();
+        }
+
+        if (_player2.playerType == Player.PlayerType.COMPUTER)
+        {
+            _player2.CPUInput();
+        }
     }
 
-    private void CheckForWinner()
+    private IEnumerator CPUvsCPUTurn()
     {
+        yield return new WaitForSeconds(3);
+        
+        _player1.CPUInput();
+        _player2.CPUInput();
+    }
+
+    private bool CheckForWinner()
+    {
+        // 0: No winner;
+        // 1: Player 1 wins
+        // 2: Player 2 wins
+        // 3: Draw
+        
         int winner = 0;
         
-        if (_player1.currentHealth == 0 && _player2.currentHealth == 0)
+        if ((_player1.currentHealth == 0 && _player2.currentHealth == 0) || (_player1.collectedFood == _collectionGoal && _player2.collectedFood == _collectionGoal)) 
         {
             winner = 3;
-        } else if (_player1.currentHealth == 0)
+        } else if (_player1.currentHealth == 0 || _player2.collectedFood == _collectionGoal)
         {
             winner = 2;
-        } else if (_player2.currentHealth == 0)
+        } else if (_player2.currentHealth == 0 || _player1.collectedFood == _collectionGoal)
         {
             winner = 1;
         }
 
-        if (winner == 0) return;
+        if (winner == 0) return false;
         
         _player1.GetComponent<PlayerInput>().enabled = false;
         _player2.GetComponent<PlayerInput>().enabled = false;
             
         _uiController.UpdateWinner(winner);
+
+        return true;
     }
 
     private void RespawnFood()
@@ -130,26 +215,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void SpawnPlayers()
-    {
-        Transform parentTransform = tilemap.transform.parent;
-        
-        // Instantiate
-        PlayerInput p1Input = PlayerInput.Instantiate(playerPrefab, 1, "Player1", pairWithDevice: Keyboard.current);
-        p1Input.gameObject.name = "Player 1";
-        p1Input.GetComponent<Player>().SetupPlayer(parentTransform, p1Overlay, tilemap, _mapGenerator.player1Spawn, p1SelectionTile);
-        _player1 = p1Input.gameObject.GetComponent<Player>();
-        _uiController.player1 = _player1;
-
-
-        PlayerInput p2Input = PlayerInput.Instantiate(playerPrefab, 2, "Player2", pairWithDevice: Keyboard.current);
-        p2Input.gameObject.name = "Player 2";
-        p2Input.GetComponent<Player>().SetupPlayer(parentTransform, p2Overlay, tilemap, _mapGenerator.player2Spawn, p2SelectionTile);
-        _player2 = p2Input.gameObject.GetComponent<Player>();
-        _uiController.player2 = _player2;
-
-
-    }
+    
 
     private Vector3 GetTileCenterPosition(Vector3Int tileCoordinate)
     {
