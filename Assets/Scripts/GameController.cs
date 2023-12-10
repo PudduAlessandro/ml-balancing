@@ -50,9 +50,13 @@ public class GameController : MonoBehaviour
         _mapGenerator = gameObject.GetComponent<MapGenerator>();
 
         _uiController = GameObject.Find("UIController").GetComponent<UIController>();
+        _uiController.collectionGoal = _collectionGoal;
+        
 
         tilemap = _mapGenerator.BuildMap();
         SpawnPlayers();
+        
+        _uiController.UpdateUI();
     }
 
     // Update is called once per frame
