@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
     // Misc stats (movement, interactions)
     [SerializeField] private readonly float _moveSpeed = 3;
     [FormerlySerializedAs("_rotationSpeed")] [SerializeField] private float rotationSpeed = 3;
-    private Vector2 _movementDirection;
+    
+    private GameObject playerSprite;
 
     // Controls related
     public bool isPlayerTwo;
@@ -35,6 +36,16 @@ public class Player : MonoBehaviour
     };
 
     public PlayerType playerType;
+
+    private enum MovementDirection
+    {
+        UP,
+        RIGHT,
+        DOWN,
+        LEFT
+    };
+
+    private MovementDirection _movementDirection = MovementDirection.RIGHT;
 
     // Map related
     public Vector3Int currentPosition;
@@ -65,9 +76,9 @@ public class Player : MonoBehaviour
 
     }
 
-    public void SetupPlayer(Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile, bool isHumanPlayer)
+    public void SetupPlayer(string playerName, Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile, bool isHumanPlayer)
     {
-
+        gameObject.name = playerName;
         playerType = isHumanPlayer ? PlayerType.HUMAN : PlayerType.COMPUTER;
 
         _tilemap = map;
@@ -82,6 +93,9 @@ public class Player : MonoBehaviour
         currentThirst = 100;
 
         SetupStatusBars();
+        
+        playerSprite = gameObject.transform.Find("PlayerSprite").gameObject;
+        SetPlayerColor(playerName);
 
         if (playerType != PlayerType.COMPUTER) return;
         GetComponent<PlayerInput>().enabled = false;
@@ -90,27 +104,33 @@ public class Player : MonoBehaviour
 
     private void HumanInput(InputAction.CallbackContext value)
     {
+        float turnDirectionValue = 0f;
+        
         if (!value.performed) return;
         switch (value.action.name)
         {
             case "Select Above Tile":
             {
                 _tempSelectedPosition = currentPosition + new Vector3Int(0, 1, 0);
+                _movementDirection = MovementDirection.UP;
                 break;
             }
             case "Select Below Tile":
             {
                 _tempSelectedPosition = currentPosition + new Vector3Int(0, -1, 0);
+                _movementDirection = MovementDirection.DOWN;
                 break;
             } 
             case "Select Left Tile":
             {
                 _tempSelectedPosition = currentPosition + new Vector3Int(-1, 0, 0);
+                _movementDirection = MovementDirection.LEFT;
                 break;
             } 
             case "Select Right Tile":
             {
                 _tempSelectedPosition = currentPosition + new Vector3Int(1, 0, 0);
+                _movementDirection = MovementDirection.RIGHT;
                 break;
             }
             case "Confirm":
@@ -152,21 +172,25 @@ public class Player : MonoBehaviour
                 case 0: // UP
                 {
                     _tempSelectedPosition = currentPosition + new Vector3Int(0, 1, 0);
+                    _movementDirection = MovementDirection.UP;
                     break;
                 }
                 case 1: // DOWN
                 {
                     _tempSelectedPosition = currentPosition + new Vector3Int(0, -1, 0);
+                    _movementDirection = MovementDirection.DOWN;
                     break;
                 }
                 case 2: // LEFT
                 {
                     _tempSelectedPosition = currentPosition + new Vector3Int(-1, 0, 0);
+                    _movementDirection = MovementDirection.LEFT;
                     break;
                 }
                 case 3: // RIGHT
                 {
                     _tempSelectedPosition = currentPosition + new Vector3Int(1, 0, 0);
+                    _movementDirection = MovementDirection.RIGHT;
                     break;
                 }
             }
@@ -225,7 +249,21 @@ public class Player : MonoBehaviour
         healthBar.UpdateStatusBar(currentHealth);
         hungerBar.UpdateStatusBar(currentHunger);
         thirstBar.UpdateStatusBar(currentThirst);
-        
+
+        TurnToMovement();
+
+    }
+
+    private void TurnToMovement()
+    {
+        playerSprite.transform.rotation = _movementDirection switch
+        {
+            MovementDirection.UP => Quaternion.Euler(0, 0, 90f),
+            MovementDirection.DOWN => Quaternion.Euler(0, 0, -90f),
+            MovementDirection.LEFT => Quaternion.Euler(0, 0, 180f),
+            MovementDirection.RIGHT => Quaternion.Euler(0, 0, 0f),
+            _ => playerSprite.transform.rotation
+        };
     }
 
     private void UpdateHealth()
@@ -310,5 +348,20 @@ public class Player : MonoBehaviour
         healthBar.SetMaxStatusValue(_maxHealth);
         hungerBar.SetMaxStatusValue(_maxHunger);
         thirstBar.SetMaxStatusValue(_maxThirst);
+    }
+
+    public void SetPlayerColor(string playerName)
+    {
+        SpriteRenderer spriteRenderer = playerSprite.GetComponent<SpriteRenderer>();
+
+        switch (playerName)
+        {
+            case "Player 1":
+                spriteRenderer.color = Color.red;
+                break;
+            case "Player 2":
+                spriteRenderer.color = Color.yellow;
+                break;
+        }
     }
 }

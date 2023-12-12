@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | ML_Balancing</title>
-    <link rel="shortcut icon" href="/TemplateData/favicon.ico">
-    <link rel="stylesheet" href="/TemplateData/style.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -57,12 +57,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/WebGLBuild.loader.js";
+      var loaderUrl = buildUrl + "/public.loader.js";
       var config = {
-        dataUrl: buildUrl + "/WebGLBuild.data",
-        frameworkUrl: buildUrl + "/WebGLBuild.framework.js",
-        codeUrl: buildUrl + "/WebGLBuild.wasm",
-        streamingAssetsUrl: "../StreamingAssets",
+        dataUrl: buildUrl + "/public.data",
+        frameworkUrl: buildUrl + "/public.framework.js",
+        codeUrl: buildUrl + "/public.wasm",
+        streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "ML_Balancing",
         productVersion: "1.0",

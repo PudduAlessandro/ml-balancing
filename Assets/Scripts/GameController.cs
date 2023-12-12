@@ -101,17 +101,13 @@ public class GameController : MonoBehaviour
         
         // Instantiate
         PlayerInput p1Input = PlayerInput.Instantiate(playerPrefab, 1, "Player1", pairWithDevice: Keyboard.current);
-        p1Input.gameObject.name = "Player 1";
-        p1Input.GetComponent<Player>().SetupPlayer(parentTransform, p1Overlay, tilemap, _mapGenerator.player1Spawn, p1SelectionTile, player1IsHuman);
+        p1Input.GetComponent<Player>().SetupPlayer("Player 1", parentTransform, p1Overlay, tilemap, _mapGenerator.player1Spawn, p1SelectionTile, player1IsHuman);
         _player1 = p1Input.gameObject.GetComponent<Player>();
         _uiController.player1 = _player1;
 
 
         PlayerInput p2Input = PlayerInput.Instantiate(playerPrefab, 2, "Player2", pairWithDevice: Keyboard.current);
-        p2Input.gameObject.name = "Player 2";
-        
-        
-        p2Input.GetComponent<Player>().SetupPlayer(parentTransform, p2Overlay, tilemap, _mapGenerator.player2Spawn, p2SelectionTile, player2IsHuman);
+        p2Input.GetComponent<Player>().SetupPlayer("Player 2", parentTransform, p2Overlay, tilemap, _mapGenerator.player2Spawn, p2SelectionTile, player2IsHuman);
         _player2 = p2Input.gameObject.GetComponent<Player>();
         _uiController.player2 = _player2;
         
