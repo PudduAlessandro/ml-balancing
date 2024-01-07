@@ -385,7 +385,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Thirst:'
+  m_text: 'Water:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hunger:'
+  m_text: 'Food:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2714,7 +2714,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hunger:'
+  m_text: 'Food:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2852,13 +2852,13 @@ MonoBehaviour:
   player1Spawn: {x: 0, y: 0, z: 0}
   player2Spawn: {x: 0, y: 0, z: 0}
   tiles:
-  - {fileID: 11400000, guid: 9e57d5cfb4065fc4a95d3fb65dfd4633, type: 2}
-  - {fileID: 11400000, guid: 7df473665e9faf144b35976b58f49067, type: 2}
-  - {fileID: 11400000, guid: 58ac15feef45b964ba44ee24a13eac4b, type: 2}
-  - {fileID: 11400000, guid: 4e7ed6c98c3c36a44a02d2204f8856a2, type: 2}
-  - {fileID: 11400000, guid: 9e57d5cfb4065fc4a95d3fb65dfd4633, type: 2}
-  - {fileID: 11400000, guid: 9e57d5cfb4065fc4a95d3fb65dfd4633, type: 2}
-  - {fileID: 11400000, guid: 721927d1fe7a8fc449882ebca79a4371, type: 2}
+  - {fileID: 11400000, guid: 76d9a0cc4b5c6654990add76a498de65, type: 2}
+  - {fileID: 11400000, guid: 07347019d1bbb0343a085013318f685a, type: 2}
+  - {fileID: 11400000, guid: 2722e8293214e824dadb51ac54985ed9, type: 2}
+  - {fileID: 11400000, guid: 7f7747ff46045ad40bdff0171b8a4499, type: 2}
+  - {fileID: 11400000, guid: 76d9a0cc4b5c6654990add76a498de65, type: 2}
+  - {fileID: 11400000, guid: 76d9a0cc4b5c6654990add76a498de65, type: 2}
+  - {fileID: 11400000, guid: 92cb11a07f7d3b34c8bd2776f8697218, type: 2}
 --- !u!1 &1169023980
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,7 +3731,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Thirst:'
+  m_text: 'Water:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
