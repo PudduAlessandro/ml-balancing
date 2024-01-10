@@ -85,6 +85,17 @@
                 },
                 {
                     "name": "",
+                    "id": "afd9edce-ed53-4340-bb96-ea46978afef8",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player1",
+                    "action": "Select Above Tile",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f8ee56e7-6987-4fbc-b6dd-d5e234599f78",
                     "path": "<Keyboard>/s",
                     "interactions": "",
@@ -101,6 +112,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player2",
+                    "action": "Select Below Tile",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed0cda1d-42bb-4a99-a61c-3ccb5d5c9729",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player1",
                     "action": "Select Below Tile",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -129,6 +151,17 @@
                 },
                 {
                     "name": "",
+                    "id": "aa52e4bf-9f53-460b-9b2d-9e31e92c80de",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player1",
+                    "action": "Select Left Tile",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "059ab8aa-a14f-4fc6-93e3-0647fd058b9f",
                     "path": "<Keyboard>/d",
                     "interactions": "",
@@ -145,6 +178,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player2",
+                    "action": "Select Right Tile",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e4be1e7-a699-43f1-8977-1e69205bcd08",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player1",
                     "action": "Select Right Tile",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -173,6 +217,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d4e8ef4c-1c92-46d2-b890-de50f4b90b48",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player1",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c65f4fd9-7770-4c0a-871c-8762cb698c04",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -189,6 +244,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player2",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66b56627-117c-452e-b2d2-fcf17338cd84",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player1",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -308,7 +308,7 @@ public class Player : MonoBehaviour
 
         if (nearbyTiles.Any(tile => tile.name.Equals("4_WATER")))
         {
-            currentThirst += _thirstRestoreAmount;
+            currentThirst = _maxThirst;
         }
 
     }
@@ -326,14 +326,7 @@ public class Player : MonoBehaviour
 
     private void Eat()
     {
-        if (currentHunger + _foodRestoreAmount >= _maxHunger)
-        {
-            currentHunger = _maxHunger;
-        }
-        else
-        {
-            currentHunger += _foodRestoreAmount;
-        }
+        currentHunger = _maxHunger;
     }
     
     private void SetupStatusBars()

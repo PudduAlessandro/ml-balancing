@@ -16,6 +16,32 @@ public class MapGenerator : MonoBehaviour
     private string mapString;
     private string tempMapString = "2 3 0 2 0 2,0 0 0 2 2 0,2 5 0 2 0 2,2 0 0 1 1 0,2 0 1 1 1 4,2 1 2 0 2 0";
 
+    [SerializeField] private Map SelectedMap = Map.MOUNTAINBLOCK2_0_5;
+    
+    private enum Map {
+        WATERSWAP_UNBALANCED,
+        WATERSWAP_BALANCED,
+        MOUNTAINBLOCK_UNBALANCED,
+        MOUNTAINBLOCK_BALANCED,
+        EQUALIZELINE_0_2,
+        EQUALIZELINE_0_5,
+        MOUNTAINBLOCK2_0_5,
+        MOUNTAINBLOCK2_0_0
+    }
+    
+    // MAPS
+    private string[] mapStrings =
+    {
+        "0 0 3 0 2 1,0 0 0 2 0 2,0 2 0 0 1 0,2 0 0 5 0 0,1 0 0 2 1 0,1 0 0 4 1 0", //WATERSWAP_UNBALANCED
+        "0 0 0 0 2 1,0 0 0 2 0 2,0 2 0 0 1 0,2 0 0 5 3 0,1 0 0 2 1 0,1 0 0 4 1 0", //WATERSWAP_BALANCED
+        "0 0 0 5 0 1,2 2 1 1 3 1,0 0 0 1 2 3,0 1 0 2 0 3,0 0 2 4 2 1,3 0 0 0 0 0", //MOUNTAINBLOCK_UNBALANCED
+        "0 0 0 5 2 1,2 2 1 1 3 1,0 0 0 1 2 3,0 1 0 0 0 3,0 0 2 4 2 1,3 0 0 0 0 0", //MOUNTAINBLOCK_BALANCED
+        "0 2 2 0 1 0,0 0 0 1 3 0,1 1 2 2 3 3,3 2 0 2 5 0,0 1 1 2 1 1,0 3 0 0 4 1", //EQUALIZELINE_0_2
+        "1 2 2 0 1 2,0 0 0 1 3 0,1 0 2 2 3 3,3 2 0 0 5 0,1 1 0 1 1 1,2 3 0 0 4 0", //EQUALIZELINE_0_5
+        "0 0 0 5 0 1,2 2 1 1 3 1,0 0 0 1 2 3,0 1 0 2 0 3,0 0 2 4 2 1,3 0 0 0 0 0", //MOUNTAINBLOCK2_0_5
+        "0 0 0 5 2 1,2 2 1 1 3 1,0 0 0 1 2 3,0 1 0 0 0 3,0 0 2 4 2 1,3 0 0 0 0 0"  //MOUNTAINBLOCK2_0_0
+    };
+
 
     // Start is called before the first frame update
     private void Start()
@@ -54,7 +80,9 @@ public class MapGenerator : MonoBehaviour
         int xCoord = 0;
         int yCoord = 0;
 
-        foreach (string y in tempMapString.Split(","))
+        string map = mapStrings[(int)SelectedMap];
+
+        foreach (string y in map.Split(","))
         {
             xCoord = 0;
             foreach (string x in y.Split(" "))
