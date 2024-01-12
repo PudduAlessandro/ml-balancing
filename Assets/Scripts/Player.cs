@@ -54,8 +54,8 @@ public class Player : MonoBehaviour
     private int _foodRestoreAmount = 20, _thirstRestoreAmount = 20, _healthRestoreAmount = 10;
 
     //private Tile _selectedTile = null;
-    private Vector3Int _tempSelectedPosition = Vector3Int.zero;
-    public Vector3Int selectedPosition = Vector3Int.zero;
+    private Vector3Int _tempSelectedPosition = Vector3Int.forward;
+    public Vector3Int selectedPosition = Vector3Int.forward;
     private Tile _selectionTile;
     public bool turnConfirmed = false;
     
@@ -133,14 +133,14 @@ public class Player : MonoBehaviour
                 _movementDirection = MovementDirection.RIGHT;
                 break;
             }
-            case "Confirm":
+            /*case "Confirm":
             {
                 if (selectedPosition != Vector3Int.forward)
                 {
                     turnConfirmed = true;
                 }
                 return;
-            }
+            }*/
             case "Cancel":
             {
                 if (turnConfirmed)
@@ -156,6 +156,7 @@ public class Player : MonoBehaviour
             overlayMap.ClearAllTiles();
             selectedPosition = _tempSelectedPosition;
             overlayMap.SetTile(selectedPosition, _selectionTile);
+            turnConfirmed = true;
         };
     }
 
@@ -194,7 +195,7 @@ public class Player : MonoBehaviour
                     break;
                 }
             }
-
+            
             if (CheckTile(_tempSelectedPosition) != null)
             {
                 overlayMap.ClearAllTiles();
@@ -202,8 +203,7 @@ public class Player : MonoBehaviour
                 overlayMap.SetTile(selectedPosition, _selectionTile);
                 validTurn = true;
             }
-
-            ;
+            
         } while (validTurn == false);
 
         turnConfirmed = true;
@@ -211,14 +211,17 @@ public class Player : MonoBehaviour
 
     private TileBase CheckTile(Vector3Int tileToCheckPos)
     {
-
-        if (!CheckForOutOfBounds(tileToCheckPos))
+        if (tileToCheckPos == Vector3Int.forward)
         {
-           TileBase tileBase = _tilemap.GetTile(tileToCheckPos);
-           if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST") || tileBase.name.Equals("5_P1SPAWN") || tileBase.name.Equals("6_P2SPAWN") || tileBase.name.Equals("7_FORESTUSED"))
-           {
-               return tileBase;
-           }
+            return null;
+        }
+
+        if (CheckForOutOfBounds(tileToCheckPos)) return null;
+        
+        TileBase tileBase = _tilemap.GetTile(tileToCheckPos);
+        if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST") || tileBase.name.Equals("5_P1SPAWN") || tileBase.name.Equals("6_P2SPAWN") || tileBase.name.Equals("7_FORESTUSED"))
+        {
+            return tileBase;
         }
         return null;
     }
@@ -233,6 +236,7 @@ public class Player : MonoBehaviour
         turnConfirmed = false;
         currentPosition = newPosition;
         selectedPosition = Vector3Int.forward;
+        _tempSelectedPosition = Vector3Int.forward;
         overlayMap.ClearAllTiles();
 
         currentHunger -= 10;

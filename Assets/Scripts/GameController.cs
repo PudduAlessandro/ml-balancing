@@ -205,7 +205,7 @@ public class GameController : MonoBehaviour
 
                     if (randomValue <= _foodRespawnChance)
                     {
-                        tilemap.SetTile(tilePos, _mapGenerator.tiles[2]);
+                        tilemap.SetTile(tilePos, _mapGenerator.tiles[1]);
                     }
                 }
             }

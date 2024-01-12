@@ -14,7 +14,7 @@ public class MapGenerator : MonoBehaviour
     private int[][] _mapArray;
 
     private string mapString;
-    private string tempMapString = "2 3 0 2 0 2,0 0 0 2 2 0,2 5 0 2 0 2,2 0 0 1 1 0,2 0 1 1 1 4,2 1 2 0 2 0";
+    private string tempMapString = "";
 
     [SerializeField] private Map SelectedMap = Map.MOUNTAINBLOCK2_0_5;
     
@@ -26,7 +26,8 @@ public class MapGenerator : MonoBehaviour
         EQUALIZELINE_0_2,
         EQUALIZELINE_0_5,
         MOUNTAINBLOCK2_0_5,
-        MOUNTAINBLOCK2_0_0
+        MOUNTAINBLOCK2_0_0,
+        TEST_MAP
     }
     
     // MAPS
@@ -39,7 +40,8 @@ public class MapGenerator : MonoBehaviour
         "0 2 2 0 1 0,0 0 0 1 3 0,1 1 2 2 3 3,3 2 0 2 5 0,0 1 1 2 1 1,0 3 0 0 4 1", //EQUALIZELINE_0_2
         "1 2 2 0 1 2,0 0 0 1 3 0,1 0 2 2 3 3,3 2 0 0 5 0,1 1 0 1 1 1,2 3 0 0 4 0", //EQUALIZELINE_0_5
         "0 0 0 5 0 1,2 2 1 1 3 1,0 0 0 1 2 3,0 1 0 2 0 3,0 0 2 4 2 1,3 0 0 0 0 0", //MOUNTAINBLOCK2_0_5
-        "0 0 0 5 2 1,2 2 1 1 3 1,0 0 0 1 2 3,0 1 0 0 0 3,0 0 2 4 2 1,3 0 0 0 0 0"  //MOUNTAINBLOCK2_0_0
+        "0 0 0 5 2 1,2 2 1 1 3 1,0 0 0 1 2 3,0 1 0 0 0 3,0 0 2 4 2 1,3 0 0 0 0 0", //MOUNTAINBLOCK2_0_0
+        "2 3 0 2 0 2,0 0 0 2 2 0,2 5 0 2 0 2,2 0 0 1 1 0,2 0 1 1 1 4,2 1 2 0 2 0"  // TEST MAP
     };
 
 
