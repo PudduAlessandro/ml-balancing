@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class HelpPanelController : MonoBehaviour
 {
@@ -20,27 +21,15 @@ public class HelpPanelController : MonoBehaviour
         
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void ShowPanel()
     {
-        Debug.Log("entered");
         helpPanel.SetActive(true);
     }
     
-    public void OnPointerExit(PointerEventData eventData)
+    public void HidePanel()
     {
-        Debug.Log("left");
         helpPanel.SetActive(false);
     }
 
-    private void OnMouseEnter()
-    {
-        Debug.Log("entered");
-        helpPanel.SetActive(true);
-    }
     
-    private void OnMouseExit()
-    {
-        Debug.Log("left");
-        helpPanel.SetActive(false);
-    }
 }
