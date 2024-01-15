@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     private Player _player1, _player2;
 
     // Map related
+    public int selectedMapIndex;
     private MapGenerator _mapGenerator;
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private Tilemap p1Overlay, p2Overlay;
@@ -44,16 +45,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
 
-        _mapGenerator = gameObject.GetComponent<MapGenerator>();
-
-        _uiController = GameObject.Find("UIController").GetComponent<UIController>();
-        _uiController.collectionGoal = _collectionGoal;
         
-
-        tilemap = _mapGenerator.BuildMap();
-        SpawnPlayers();
-        
-        _uiController.UpdateUI();
     }
 
     // Update is called once per frame
@@ -75,6 +67,21 @@ public class GameController : MonoBehaviour
     private void FixedUpdate()
     {
         
+    }
+
+    public void SetupGame()
+    {
+        _mapGenerator = gameObject.GetComponent<MapGenerator>();
+        _mapGenerator.selectedMap = (MapGenerator.Map)selectedMapIndex;
+
+        _uiController = GameObject.Find("UIController").GetComponent<UIController>();
+        _uiController.collectionGoal = _collectionGoal;
+        
+
+        tilemap = _mapGenerator.BuildMap();
+        SpawnPlayers();
+        
+        _uiController.UpdateUI();
     }
     
     private void SpawnPlayers()

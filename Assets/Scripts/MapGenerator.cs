@@ -2,6 +2,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class MapGenerator : MonoBehaviour
@@ -16,9 +17,9 @@ public class MapGenerator : MonoBehaviour
     private string mapString;
     private string tempMapString = "";
 
-    [SerializeField] private Map SelectedMap = Map.MOUNTAINBLOCK2_0_5;
+    [SerializeField] public Map selectedMap;
     
-    private enum Map {
+    public enum Map {
         WATERSWAP_UNBALANCED,
         WATERSWAP_BALANCED,
         MOUNTAINBLOCK_UNBALANCED,
@@ -82,7 +83,7 @@ public class MapGenerator : MonoBehaviour
         int xCoord = 0;
         int yCoord = 0;
 
-        string map = mapStrings[(int)SelectedMap];
+        string map = mapStrings[(int)selectedMap];
 
         foreach (string y in map.Split(","))
         {

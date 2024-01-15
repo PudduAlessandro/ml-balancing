@@ -57,11 +57,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/8c4b879bef2aadd67c18b34bd7c9526358faa763.loader.js";
+      var loaderUrl = buildUrl + "/public.loader.js";
       var config = {
-        dataUrl: buildUrl + "/8c4b879bef2aadd67c18b34bd7c9526358faa763.data",
-        frameworkUrl: buildUrl + "/8c4b879bef2aadd67c18b34bd7c9526358faa763.framework.js",
-        codeUrl: buildUrl + "/8c4b879bef2aadd67c18b34bd7c9526358faa763.wasm",
+        dataUrl: buildUrl + "/public.data",
+        frameworkUrl: buildUrl + "/public.framework.js",
+        codeUrl: buildUrl + "/public.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "ML_Balancing",
@@ -100,12 +100,14 @@
 
       loadingBar.style.display = "block";
 
+
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
+                unityInstance.SendMessage("JSInputObject","JSInput","8c4b879bef2aadd67c18b34bd7c9526358faa763");
                 loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
@@ -116,6 +118,8 @@
             };
 
       document.body.appendChild(script);
+
+      
 
     </script>
   </body>
