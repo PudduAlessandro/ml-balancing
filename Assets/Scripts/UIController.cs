@@ -61,13 +61,13 @@ public class UIController : MonoBehaviour
         switch (winner)
         {
             case 1: 
-                winnerText.text = "Player 1 wins!";
+                winnerText.text = "Spieler gewinnt!";
                 break;
             case 2:
-                winnerText.text = "Player 2 wins!";
+                winnerText.text = "Computer gewinnt!";
                 break;
             case 3:
-                winnerText.text = "Draw!";
+                winnerText.text = "Unentschieden!";
                 break;
         }
     }
