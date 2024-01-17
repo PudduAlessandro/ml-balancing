@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+    <style>
+      body {
+        background-color:#358ad9;
+      }
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | ML_Balancing</title>
+    <title>Spiel zur Umfrage</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body>
+    <div style="padding: 40px; text-align: center;" id="return-button"><button style="font-size: 24px;" onclick="returnToSurvey()">Zurück zur Umfrage</button></div>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=1280 height=720 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -20,7 +26,7 @@
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">ML_Balancing</div>
+        <div id="unity-build-title">Vollbild →</div>
       </div>
     </div>
     <script>
@@ -59,9 +65,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/public.loader.js";
       var config = {
-        dataUrl: buildUrl + "/public.data",
-        frameworkUrl: buildUrl + "/public.framework.js",
-        codeUrl: buildUrl + "/public.wasm",
+        dataUrl: buildUrl + "/public.data.br",
+        frameworkUrl: buildUrl + "/public.framework.js.br",
+        codeUrl: buildUrl + "/public.wasm.br",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "ML_Balancing",
@@ -107,7 +113,6 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
-                unityInstance.SendMessage("JSInputObject","JSInput","bae4e32a21350bbea99e989c7fa1859d29837df4");
                 loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
@@ -119,7 +124,11 @@
 
       document.body.appendChild(script);
 
-      
+      function returnToSurvey(){
+        if(confirm("Möchten Sie zur Umfrage zurückkehren?\n\nDadurch wird der aktuelle Tab geschlossen")){
+          window.close();
+        }
+      }
 
     </script>
   </body>

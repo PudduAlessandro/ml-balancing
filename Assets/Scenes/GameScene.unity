@@ -2406,6 +2406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 484454646}
+  - component: {fileID: 484454648}
   - component: {fileID: 484454645}
   - component: {fileID: 484454647}
   m_Layer: 0
@@ -2476,6 +2477,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9e57d5cfb4065fc4a95d3fb65dfd4633, type: 2}
   - {fileID: 11400000, guid: 721927d1fe7a8fc449882ebca79a4371, type: 2}
   selectedMap: 8
+--- !u!114 &484454648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484454644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a1b7ad9e706dc47aff0e9b1836d10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -6659,7 +6672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1953952572
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6691,7 +6704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a1b7ad9e706dc47aff0e9b1836d10e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 484454645}
 --- !u!1 &1983698804
 GameObject:
   m_ObjectHideFlags: 0
