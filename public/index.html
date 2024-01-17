@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+    <style>
+      body {
+        background-color:#358ad9;
+      }
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | ML_Balancing</title>
+    <title>Spiel zur Umfrage</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body>
+    <div style="padding: 40px; text-align: center;" id="return-button"><button style="font-size: 24px;" onclick="returnToSurvey()">Zurück zur Umfrage</button></div>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=1280 height=720 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -20,7 +26,7 @@
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">ML_Balancing</div>
+        <div id="unity-build-title">Vollbild →</div>
       </div>
     </div>
     <script>
@@ -59,9 +65,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/public.loader.js";
       var config = {
-        dataUrl: buildUrl + "/public.data.br",
-        frameworkUrl: buildUrl + "/public.framework.js.br",
-        codeUrl: buildUrl + "/public.wasm.br",
+        dataUrl: buildUrl + "/public.data",
+        frameworkUrl: buildUrl + "/public.framework.js",
+        codeUrl: buildUrl + "/public.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "ML_Balancing",
@@ -79,12 +85,9 @@
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
 
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-        canvas.className = "unity-mobile";
+        alert("Dieses Spiel wurde nicht für Mobilgeräte entwickelt und kann nicht gespielt werden!\n\nDer Tab wird jetzt geschlossen");
+
+        window.close();
 
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
@@ -116,6 +119,12 @@
             };
 
       document.body.appendChild(script);
+
+      function returnToSurvey(){
+        if(confirm("Möchten Sie zur Umfrage zurückkehren?\n\nDadurch wird der aktuelle Tab geschlossen")){
+          window.close();
+        }
+      }
 
     </script>
   </body>
