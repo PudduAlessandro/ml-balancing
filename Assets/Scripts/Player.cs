@@ -99,6 +99,7 @@ public class Player : MonoBehaviour
 
         if (playerType != PlayerType.COMPUTER) return;
         GetComponent<PlayerInput>().enabled = false;
+        playerSprite.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         CPUInput();
     }
 
