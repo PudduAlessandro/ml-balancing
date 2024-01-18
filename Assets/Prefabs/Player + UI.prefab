@@ -116,6 +116,8 @@ GameObject:
   - component: {fileID: 8892089489044540395}
   - component: {fileID: 5795678487260174421}
   - component: {fileID: 7696615433049806139}
+  - component: {fileID: 8900543135473183505}
+  - component: {fileID: 5493671465801332857}
   m_Layer: 0
   m_Name: Player + UI
   m_TagString: Untagged
@@ -163,6 +165,7 @@ MonoBehaviour:
   overlayMap: {fileID: 0}
   selectedPosition: {x: 0, y: 0, z: 0}
   turnConfirmed: 0
+  CPUSmartMove: 1
 --- !u!114 &7696615433049806139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +292,37 @@ MonoBehaviour:
   m_DefaultActionMap: Selection
   m_SplitScreenIndex: 0
   m_Camera: {fileID: 0}
+--- !u!114 &8900543135473183505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2908584425829728867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e6711591af3e24693b0c66ef966088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 0}
+  closestTargetTile: {x: 0, y: 0, z: 0}
+  targetTileTypes: []
+  currentPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &5493671465801332857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2908584425829728867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ec59d92e7bc6474aacb94d353b2fb4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 0}
+  targetTile: {fileID: 0}
+  currentPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &3540936411739781507
 GameObject:
   m_ObjectHideFlags: 0

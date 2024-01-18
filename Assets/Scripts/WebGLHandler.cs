@@ -18,7 +18,7 @@ public class WebGLHandler : MonoBehaviour
         if (Application.isEditor)
         {
             Debug.Log("Starting in Editor");
-            InputMap();
+            InputMap("a948fed06eddc83bf5c369e86b5e1e4dcdcb3258");
         }
         else
         { 

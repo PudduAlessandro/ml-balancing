@@ -51,8 +51,21 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _player1Selection = _player1.selectedPosition;
-        _player2Selection = _player2.selectedPosition;
+        if (_gameType == GameType.PVE)
+        {
+            if (_player1.turnConfirmed)
+            {
+                _player1Selection = _player1.selectedPosition;
+                _player2.CPUInput();
+                _player2Selection = _player2.selectedPosition;
+            }
+        }
+        else
+        {
+            _player1Selection = _player1.selectedPosition;
+            _player2Selection = _player2.selectedPosition;
+        }
+        
 
         player1Confirm = _player1.turnConfirmed;
         player2Confirm = _player2.turnConfirmed;

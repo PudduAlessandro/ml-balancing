@@ -61,6 +61,12 @@ public class Player : MonoBehaviour
     
     // UI stuff
     private StatusBarController healthBar, hungerBar, thirstBar;
+    
+    // Bot for smarter movement
+    public bool CPUSmartMove = true;
+    private DjikstraBot _djikstraBot;
+
+    private AStarBot _aStarBot;
 
 
     // Start is called before the first frame update
@@ -99,8 +105,19 @@ public class Player : MonoBehaviour
 
         if (playerType != PlayerType.COMPUTER) return;
         GetComponent<PlayerInput>().enabled = false;
+        if (CPUSmartMove)
+        {
+            //_djikstraBot = GetComponent<DjikstraBot>();
+            //_djikstraBot.tilemap = _tilemap;
+            //_djikstraBot.SetupBot();
+
+            _aStarBot = GetComponent<AStarBot>();
+            _aStarBot.tilemap = _tilemap;
+            _aStarBot.SetupBot();
+        }
+       
         playerSprite.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-        CPUInput();
+        //CPUInput();
     }
 
     private void HumanInput(InputAction.CallbackContext value)
@@ -163,8 +180,95 @@ public class Player : MonoBehaviour
 
     public void CPUInput()
     {
-        bool validTurn = false;
+        if (CPUSmartMove)
+        {
+            SmartMovementAStar();
+            //SmartMovementDjikstra();
+        }
+        else
+        {
+            RandomMovement();
+        }
+        
 
+        turnConfirmed = true;
+    }
+
+    private void SmartMovementDjikstra()
+    {
+        _djikstraBot.currentPosition = currentPosition;
+        _djikstraBot.targetTileTypes.Clear();
+        if (currentHunger > currentThirst)
+        {
+            _djikstraBot.targetTileTypes.Add("3_FOREST");
+        } 
+        else if(currentHunger < currentThirst)
+        {
+            _djikstraBot.targetTileTypes.Add("4_WATER");
+        } 
+        else if(currentHunger == currentThirst)
+        {
+            var random = Random.Range(0, 2);
+            _djikstraBot.targetTileTypes.Add(random == 1 ? "3_FOREST" : "4_WATER");
+        }
+
+        selectedPosition = _djikstraBot.Move();
+
+    }
+    
+    private void SmartMovementAStar()
+    {
+        _aStarBot.currentPosition = currentPosition;
+        _aStarBot.targetTileName = "";
+        
+        if (currentHunger < currentThirst)
+        {
+            _aStarBot.targetTileName = "3_FOREST";
+            _aStarBot.lockCurrentTargetType = false;
+        } 
+        else if(currentHunger > currentThirst)
+        {
+            _aStarBot.targetTileName = "4_WATER";
+            _aStarBot.lockCurrentTargetType = false;
+        } 
+        else if(currentHunger == currentThirst)
+        {
+            if (!_aStarBot.lockCurrentTargetType)
+            { 
+                var random = Random.Range(0, 2);
+                _aStarBot.targetTileName = (random == 1 ? "3_FOREST" : "4_WATER"); 
+                _aStarBot.lockCurrentTargetType = true; 
+            }
+            
+        }
+
+        if (_aStarBot.path == null)
+        {
+            _aStarBot.FindPath();
+        }
+        
+        if (_aStarBot.path.Count == 0)
+        {
+           _aStarBot.FindPath(); 
+        }
+        else
+        {
+            selectedPosition = _aStarBot.MoveOneStep();
+        }
+        
+        
+        
+        /*if (CheckTile(_tempSelectedPosition) == null)
+        {
+            RandomMovement();
+        }*/
+        
+    }
+
+    private void RandomMovement()
+    {
+        bool validTurn = false;
+        
         do
         {
             int randomAction = Random.Range(0, 4);
@@ -196,7 +300,7 @@ public class Player : MonoBehaviour
                     break;
                 }
             }
-            
+
             if (CheckTile(_tempSelectedPosition) != null)
             {
                 overlayMap.ClearAllTiles();
@@ -204,10 +308,7 @@ public class Player : MonoBehaviour
                 overlayMap.SetTile(selectedPosition, _selectionTile);
                 validTurn = true;
             }
-            
         } while (validTurn == false);
-
-        turnConfirmed = true;
     }
 
     private TileBase CheckTile(Vector3Int tileToCheckPos)
@@ -322,11 +423,9 @@ public class Player : MonoBehaviour
     {
         TileBase currentTile = CheckTile(currentPosition);
 
-        if (currentTile.name.Equals("3_FOREST"))
-        {
-            Eat();
-            collectedFood++;
-        }
+        if (!currentTile.name.Equals("3_FOREST")) return;
+        Eat();
+        collectedFood++;
     }
 
     private void Eat()
