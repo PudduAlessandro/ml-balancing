@@ -122,14 +122,16 @@ public class GameController : MonoBehaviour
         RespawnFood();
         
         _player1.gameObject.transform.position = GetTileCenterPosition(player1SelectedTile);
+        
         _player1.FinishTurn(player1SelectedTile);
+        _player2.FinishTurn(player2SelectedTile);
+        
         if (tilemap.GetTile(_player1.currentPosition).name.Equals("3_FOREST"))
         {
             tilemap.SetTile(_player1.currentPosition, _mapGenerator.tiles[6]);
         }
         
         _player2.gameObject.transform.position = GetTileCenterPosition(player2SelectedTile);
-        _player2.FinishTurn(player2SelectedTile);
         if (tilemap.GetTile(_player2.currentPosition).name.Equals("3_FOREST"))
         {
             tilemap.SetTile(_player2.currentPosition, _mapGenerator.tiles[6]);
