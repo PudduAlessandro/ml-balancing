@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     // Core gameplay stats
     [Range(0, 100)] public int currentHealth = 100, currentHunger = 100, currentThirst = 100;
 
+    public GameController _GameController;
+
     public int collectedFood;
     
     // max values in case range attribute doesnt do its thing
@@ -65,8 +67,9 @@ public class Player : MonoBehaviour
     // Bot for smarter movement
     public bool CPUSmartMove = true;
     private DjikstraBot _djikstraBot;
+    private Queue<Vector3Int> pathToTarget;
 
-    private AStarBot _aStarBot;
+    private AStarBotV2 _aStarBot;
 
 
     // Start is called before the first frame update
@@ -82,10 +85,11 @@ public class Player : MonoBehaviour
 
     }
 
-    public void SetupPlayer(string playerName, Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile, bool isHumanPlayer)
+    public void SetupPlayer(string playerName, Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile, bool isHumanPlayer, GameController gameController)
     {
         gameObject.name = playerName;
         playerType = isHumanPlayer ? PlayerType.HUMAN : PlayerType.COMPUTER;
+        _GameController = gameController;
 
         _tilemap = map;
         gameObject.transform.parent = parentTransform;
@@ -111,13 +115,13 @@ public class Player : MonoBehaviour
             //_djikstraBot.tilemap = _tilemap;
             //_djikstraBot.SetupBot();
 
-            _aStarBot = GetComponent<AStarBot>();
+            _aStarBot = GetComponent<AStarBotV2>();
             _aStarBot.tilemap = _tilemap;
             _aStarBot.SetupBot();
         }
        
         playerSprite.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-        //CPUInput();
+        CPUInput();
     }
 
     private void HumanInput(InputAction.CallbackContext value)
@@ -182,7 +186,16 @@ public class Player : MonoBehaviour
     {
         if (CPUSmartMove)
         {
-            SmartMovementAStar();
+            if (pathToTarget == null || pathToTarget.Count == 0)
+            {
+              AStarPathFinding();
+              MoveAlongPath();
+            }
+            else
+            {
+                MoveAlongPath();
+            }
+            
             //SmartMovementDjikstra();
         }
         else
@@ -194,41 +207,24 @@ public class Player : MonoBehaviour
         turnConfirmed = true;
     }
 
-    private void SmartMovementDjikstra()
+    private void MoveAlongPath()
     {
-        _djikstraBot.currentPosition = currentPosition;
-        _djikstraBot.targetTileTypes.Clear();
-        if (currentHunger > currentThirst)
-        {
-            _djikstraBot.targetTileTypes.Add("3_FOREST");
-        } 
-        else if(currentHunger < currentThirst)
-        {
-            _djikstraBot.targetTileTypes.Add("4_WATER");
-        } 
-        else if(currentHunger == currentThirst)
-        {
-            var random = Random.Range(0, 2);
-            _djikstraBot.targetTileTypes.Add(random == 1 ? "3_FOREST" : "4_WATER");
-        }
-
-        selectedPosition = _djikstraBot.Move();
-
+        selectedPosition = pathToTarget.Dequeue();
     }
-    
-    private void SmartMovementAStar()
+
+    private void AStarPathFinding()
     {
-        _aStarBot.currentPosition = currentPosition;
+        _aStarBot.startPos = currentPosition;
         _aStarBot.targetTileName = "";
         
         if (currentHunger < currentThirst)
         {
-            _aStarBot.targetTileName = "3_FOREST";
+            _aStarBot.targetTileName = "Food";
             _aStarBot.lockCurrentTargetType = false;
         } 
         else if(currentHunger > currentThirst)
         {
-            _aStarBot.targetTileName = "4_WATER";
+            _aStarBot.targetTileName = "WAdjacent";
             _aStarBot.lockCurrentTargetType = false;
         } 
         else if(currentHunger == currentThirst)
@@ -236,33 +232,14 @@ public class Player : MonoBehaviour
             if (!_aStarBot.lockCurrentTargetType)
             { 
                 var random = Random.Range(0, 2);
-                _aStarBot.targetTileName = (random == 1 ? "3_FOREST" : "4_WATER"); 
+                _aStarBot.targetTileName = (random == 1 ? "Food" : "WAdjacent"); 
                 _aStarBot.lockCurrentTargetType = true; 
             }
             
         }
 
-        if (_aStarBot.path == null)
-        {
-            _aStarBot.FindPath();
-        }
-        
-        if (_aStarBot.path.Count == 0)
-        {
-           _aStarBot.FindPath(); 
-        }
-        else
-        {
-            selectedPosition = _aStarBot.MoveOneStep();
-        }
-        
-        
-        
-        /*if (CheckTile(_tempSelectedPosition) == null)
-        {
-            RandomMovement();
-        }*/
-        
+        pathToTarget = _aStarBot.FindPath();
+
     }
 
     private void RandomMovement()
@@ -321,7 +298,7 @@ public class Player : MonoBehaviour
         if (CheckForOutOfBounds(tileToCheckPos)) return null;
         
         TileBase tileBase = _tilemap.GetTile(tileToCheckPos);
-        if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST") || tileBase.name.Equals("5_P1SPAWN") || tileBase.name.Equals("6_P2SPAWN") || tileBase.name.Equals("7_FORESTUSED"))
+        if (tileBase.name.Contains("Grass") || tileBase.name.Contains("Food"))
         {
             return tileBase;
         }
@@ -412,7 +389,7 @@ public class Player : MonoBehaviour
             nearbyTiles.Add(_tilemap.GetTile(tileToCheck + new Vector3Int(-1, 0, 0)));
         }
 
-        if (nearbyTiles.Any(tile => tile.name.Equals("4_WATER")))
+        if (nearbyTiles.Any(tile => tile.name.Contains("Water")))
         {
             currentThirst = _maxThirst;
         }
@@ -423,9 +400,11 @@ public class Player : MonoBehaviour
     {
         TileBase currentTile = CheckTile(currentPosition);
 
-        if (!currentTile.name.Equals("3_FOREST")) return;
-        Eat();
-        collectedFood++;
+        if (currentTile.name.Contains("Food") && !currentTile.name.Contains("Used"))
+        {
+            Eat();
+            collectedFood++;
+        }
     }
 
     private void Eat()

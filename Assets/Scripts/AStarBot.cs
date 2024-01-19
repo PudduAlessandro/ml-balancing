@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,28 +18,39 @@ public class AStarBot : MonoBehaviour
     public void SetupBot()
     {
         tilemap.CompressBounds();
-        grid = tilemap.GetComponent<Grid>();
+        grid = tilemap.transform.parent.GetComponent<Grid>();
     }
 
     public void FindPath()
     {
-        Vector3Int targetPosition = FindTargetTilePosition();
+        Vector3Int targetPosition = FindClosestTargetTilePosition();
         path = FindPath(currentPosition, targetPosition);
+        Debug.Log($"Next tile: {path.Peek()}");
     }
     
-    Vector3Int FindTargetTilePosition()
+    Vector3Int FindClosestTargetTilePosition()
     {
-        Vector3Int targetPosition = Vector3Int.zero;
+        Vector3Int start = currentPosition;
+        Vector3Int closestTile = Vector3Int.zero;
+        float closestDistance = float.MaxValue;
 
         foreach (var pos in tilemap.cellBounds.allPositionsWithin)
         {
-            if (tilemap.GetTile(pos).name != targetTileName) continue;
-            
-            targetPosition = pos;
-            break;
+            if (tilemap.GetTile(pos).name == targetTileName)
+            {
+                float distance = Vector3Int.Distance(start, pos);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTile = pos;
+                }
+            }
         }
 
-        return targetPosition;
+        Debug.Log($"Chosen Tile: {closestTile}, Distance: {closestDistance}");
+
+        return closestTile;
     }
     
     public Vector3Int MoveOneStep()
@@ -58,7 +70,7 @@ public class AStarBot : MonoBehaviour
         Vector3Int nextTile = path.Dequeue();
 
         // Check if the destination tile is the target tile
-        if (nextTile == FindTargetTilePosition())
+        if (nextTile == FindClosestTargetTilePosition())
         {
 
         }

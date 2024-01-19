@@ -51,22 +51,9 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_gameType == GameType.PVE)
-        {
-            if (_player1.turnConfirmed)
-            {
-                _player1Selection = _player1.selectedPosition;
-                _player2.CPUInput();
-                _player2Selection = _player2.selectedPosition;
-            }
-        }
-        else
-        {
-            _player1Selection = _player1.selectedPosition;
-            _player2Selection = _player2.selectedPosition;
-        }
+        _player1Selection = _player1.selectedPosition;
+        _player2Selection = _player2.selectedPosition;
         
-
         player1Confirm = _player1.turnConfirmed;
         player2Confirm = _player2.turnConfirmed;
         
@@ -75,6 +62,7 @@ public class GameController : MonoBehaviour
             PlayTurn(_player1Selection, _player2Selection);
             _uiController.UpdateUI();
         }
+
     }
 
     private void FixedUpdate()
@@ -118,13 +106,13 @@ public class GameController : MonoBehaviour
         
         // Instantiate
         PlayerInput p1Input = PlayerInput.Instantiate(playerPrefab, 1, "Player1", pairWithDevice: Keyboard.current);
-        p1Input.GetComponent<Player>().SetupPlayer("Player 1", parentTransform, p1Overlay, tilemap, _mapGenerator.player1Spawn, p1SelectionTile, player1IsHuman);
+        p1Input.GetComponent<Player>().SetupPlayer("Player 1", parentTransform, p1Overlay, tilemap, _mapGenerator.player1Spawn, p1SelectionTile, player1IsHuman, this);
         _player1 = p1Input.gameObject.GetComponent<Player>();
         _uiController.player1 = _player1;
 
 
         PlayerInput p2Input = PlayerInput.Instantiate(playerPrefab, 2, "Player2", pairWithDevice: Keyboard.current);
-        p2Input.GetComponent<Player>().SetupPlayer("Player 2", parentTransform, p2Overlay, tilemap, _mapGenerator.player2Spawn, p2SelectionTile, player2IsHuman);
+        p2Input.GetComponent<Player>().SetupPlayer("Player 2", parentTransform, p2Overlay, tilemap, _mapGenerator.player2Spawn, p2SelectionTile, player2IsHuman, this);
         _player2 = p2Input.gameObject.GetComponent<Player>();
         _uiController.player2 = _player2;
         
@@ -139,13 +127,13 @@ public class GameController : MonoBehaviour
         _player1.FinishTurn(player1SelectedTile);
         _player2.FinishTurn(player2SelectedTile);
         
-        if (tilemap.GetTile(_player1.currentPosition).name.Equals("3_FOREST"))
+        if (tilemap.GetTile(_player1.currentPosition).name.Equals("Food"))
         {
             tilemap.SetTile(_player1.currentPosition, _mapGenerator.tiles[6]);
         }
         
         _player2.gameObject.transform.position = GetTileCenterPosition(player2SelectedTile);
-        if (tilemap.GetTile(_player2.currentPosition).name.Equals("3_FOREST"))
+        if (tilemap.GetTile(_player2.currentPosition).name.Equals("Food"))
         {
             tilemap.SetTile(_player2.currentPosition, _mapGenerator.tiles[6]);
         }
@@ -221,7 +209,7 @@ public class GameController : MonoBehaviour
             for (int x = 0; x <= 5; x++)
             {
                 Vector3Int tilePos = new Vector3Int(x, y, 0);
-                if (tilemap.GetTile(tilePos).name.Equals("7_FORESTUSED"))
+                if (tilemap.GetTile(tilePos).name.Equals("FoodUsed"))
                 {
                     int randomValue = Random.Range(0, 1001);
 
