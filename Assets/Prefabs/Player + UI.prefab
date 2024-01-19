@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 5795678487260174421}
   - component: {fileID: 7696615433049806139}
   - component: {fileID: 8900543135473183505}
-  - component: {fileID: 5493671465801332857}
+  - component: {fileID: 6737234376283217548}
   m_Layer: 0
   m_Name: Player + UI
   m_TagString: Untagged
@@ -308,7 +308,7 @@ MonoBehaviour:
   closestTargetTile: {x: 0, y: 0, z: 0}
   targetTileTypes: []
   currentPosition: {x: 0, y: 0, z: 0}
---- !u!114 &5493671465801332857
+--- !u!114 &6737234376283217548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -317,12 +317,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2908584425829728867}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ec59d92e7bc6474aacb94d353b2fb4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 4766a32bf87410846acc52d3ef374ca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
-  targetTile: {fileID: 0}
-  currentPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &3540936411739781507
 GameObject:
   m_ObjectHideFlags: 0
