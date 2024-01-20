@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class AStarBotV2 : MonoBehaviour
 {
     public Tilemap tilemap; // Needed for setting up the grid of nodes
-    public string targetTileName; // What tile the bot is currently looking for
-    public Vector3Int startPos; // Where is the bot currently?
+    public string targetTileName = ""; // What tile the bot is currently looking for
+    public Vector3Int currentPos; // Where is the bot currently?
     public Vector3Int targetPos;
     public bool lockCurrentTargetType; // Don't change the tile until it reached its target 
 
@@ -28,7 +29,8 @@ public class AStarBotV2 : MonoBehaviour
     public Queue<Vector3Int> FindPath()
     {
         Vector3Int targetTilePosition = FindClosestTargetTilePos();
-        path = FindPath(startPos, targetTilePosition);
+        path = FindPath(currentPos, targetTilePosition);
+        if(path.Peek() == currentPos);
         path.Dequeue();
         return path;
     }
@@ -36,7 +38,7 @@ public class AStarBotV2 : MonoBehaviour
     // Find the closest tile of the needed type to the currentPosition 
     private Vector3Int FindClosestTargetTilePos()
     {
-        Vector3Int startPosition = startPos; // Start of the path
+        Vector3Int startPosition = currentPos; // Start of the path
         Vector3Int closestTargetTile = Vector3Int.zero;
         float closestActualDistance = float.MaxValue; // Distance to target tile which will be reduced until shortest is found 
 
@@ -61,7 +63,7 @@ public class AStarBotV2 : MonoBehaviour
                 }
             }
         }
-
+        Debug.Log($"Found {targetTileName} tile at {closestTargetTile}");
         return closestTargetTile;
     }
     
@@ -137,7 +139,9 @@ public class AStarBotV2 : MonoBehaviour
             path.Enqueue(current);
         }
 
-        return new Queue<Vector3Int>(path.Reverse());
+        Queue<Vector3Int> reversedPath= new Queue<Vector3Int>(path.Reverse());
+
+        return new Queue<Vector3Int>(reversedPath);
     }
     
     static List<Vector3Int> GetNeighbors(Vector3Int current)

@@ -193,7 +193,22 @@ public class Player : MonoBehaviour
             }
             else
             {
-                MoveAlongPath();
+                if (_aStarBot.targetTileName.Equals("Food"))
+                {
+                   if (IsTargetStillThere())
+                   {
+                       MoveAlongPath();
+                   }
+                   else
+                   {
+                       _aStarBot.targetTileName = "WAdjacent";
+                       AStarPathFinding();
+                   }
+                }
+                else
+                {
+                   MoveAlongPath(); 
+                }
             }
             
             //SmartMovementDjikstra();
@@ -207,6 +222,12 @@ public class Player : MonoBehaviour
         turnConfirmed = true;
     }
 
+    private bool IsTargetStillThere()
+    {
+        return _tilemap.GetTile(_aStarBot.targetPos).name.Contains("Food") &&
+               !_tilemap.GetTile(_aStarBot.targetPos).name.Contains("Used");
+    }
+
     private void MoveAlongPath()
     {
         selectedPosition = pathToTarget.Dequeue();
@@ -214,7 +235,7 @@ public class Player : MonoBehaviour
 
     private void AStarPathFinding()
     {
-        _aStarBot.startPos = currentPosition;
+        _aStarBot.currentPos = currentPosition;
         _aStarBot.targetTileName = "";
         
         if (currentHunger < currentThirst)
@@ -310,10 +331,10 @@ public class Player : MonoBehaviour
         return (tileToCheckPos.x is > 5 or < 0 || tileToCheckPos.y is > 0 or < -5);
     }
 
-    public void FinishTurn(Vector3Int newPosition)
+    public void FinishTurn()
     {
         turnConfirmed = false;
-        currentPosition = newPosition;
+        currentPosition = _tilemap.WorldToCell(transform.position);
         selectedPosition = Vector3Int.forward;
         _tempSelectedPosition = Vector3Int.forward;
         overlayMap.ClearAllTiles();
@@ -398,6 +419,11 @@ public class Player : MonoBehaviour
 
     private void FoodCheck()
     {
+        if (currentPosition == Vector3Int.forward)
+        {
+            Debug.Log("currentPositon was Vector3Int.forward - Correcting..");
+            currentPosition = _tilemap.WorldToCell(transform.position);
+        }
         TileBase currentTile = CheckTile(currentPosition);
 
         if (currentTile.name.Contains("Food") && !currentTile.name.Contains("Used"))

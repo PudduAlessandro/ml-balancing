@@ -28,7 +28,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""3fe1aaac-8d16-4d52-a142-a72e95ea7fd7"",
             ""actions"": [
                 {
-                    ""name"": ""Select Above Tile"",
+                    ""name"": ""Up"",
                     ""type"": ""Button"",
                     ""id"": ""1893d100-5171-4e63-b5a5-a454ee7a41d5"",
                     ""expectedControlType"": ""Button"",
@@ -37,7 +37,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Select Below Tile"",
+                    ""name"": ""Down"",
                     ""type"": ""Button"",
                     ""id"": ""17296216-577b-486b-acb6-cf76080cef10"",
                     ""expectedControlType"": ""Button"",
@@ -46,7 +46,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Select Left Tile"",
+                    ""name"": ""Left"",
                     ""type"": ""Button"",
                     ""id"": ""c823d076-a2d3-4738-b1f2-eb297b5626e5"",
                     ""expectedControlType"": ""Button"",
@@ -55,27 +55,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Select Right Tile"",
+                    ""name"": ""Right"",
                     ""type"": ""Button"",
                     ""id"": ""6a1cb7e9-5a03-4813-903d-f73da1d2312a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Confirm"",
-                    ""type"": ""Button"",
-                    ""id"": ""f1255886-838c-4038-8d29-ab73c42c3a72"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel"",
-                    ""type"": ""Button"",
-                    ""id"": ""f669ebed-d145-400a-a817-215c9b4e9f0b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -90,7 +72,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Above Tile"",
+                    ""action"": ""Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -101,7 +83,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player2"",
-                    ""action"": ""Select Above Tile"",
+                    ""action"": ""Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -112,7 +94,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Above Tile"",
+                    ""action"": ""Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -123,7 +105,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Below Tile"",
+                    ""action"": ""Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -134,7 +116,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player2"",
-                    ""action"": ""Select Below Tile"",
+                    ""action"": ""Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -145,7 +127,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Below Tile"",
+                    ""action"": ""Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -156,7 +138,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Left Tile"",
+                    ""action"": ""Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -167,7 +149,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player2"",
-                    ""action"": ""Select Left Tile"",
+                    ""action"": ""Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -178,7 +160,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Left Tile"",
+                    ""action"": ""Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -189,7 +171,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Right Tile"",
+                    ""action"": ""Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -200,7 +182,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player2"",
-                    ""action"": ""Select Right Tile"",
+                    ""action"": ""Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -211,73 +193,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Player1"",
-                    ""action"": ""Select Right Tile"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d4981836-ae82-4303-b50b-fcea005cf2c3"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Player1"",
-                    ""action"": ""Confirm"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a95bf642-18e5-4470-a680-ce8a2485cc75"",
-                    ""path"": ""<Keyboard>/numpad7"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Player2"",
-                    ""action"": ""Confirm"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d4e8ef4c-1c92-46d2-b890-de50f4b90b48"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Player1"",
-                    ""action"": ""Confirm"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c65f4fd9-7770-4c0a-871c-8762cb698c04"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Player1"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5c0b8c98-4f82-4d9e-acc2-320c16745edc"",
-                    ""path"": ""<Keyboard>/numpad9"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Player2"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""66b56627-117c-452e-b2d2-fcf17338cd84"",
-                    ""path"": ""<Keyboard>/backspace"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Player1"",
-                    ""action"": ""Cancel"",
+                    ""action"": ""Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -311,12 +227,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // Selection
         m_Selection = asset.FindActionMap("Selection", throwIfNotFound: true);
-        m_Selection_SelectAboveTile = m_Selection.FindAction("Select Above Tile", throwIfNotFound: true);
-        m_Selection_SelectBelowTile = m_Selection.FindAction("Select Below Tile", throwIfNotFound: true);
-        m_Selection_SelectLeftTile = m_Selection.FindAction("Select Left Tile", throwIfNotFound: true);
-        m_Selection_SelectRightTile = m_Selection.FindAction("Select Right Tile", throwIfNotFound: true);
-        m_Selection_Confirm = m_Selection.FindAction("Confirm", throwIfNotFound: true);
-        m_Selection_Cancel = m_Selection.FindAction("Cancel", throwIfNotFound: true);
+        m_Selection_Up = m_Selection.FindAction("Up", throwIfNotFound: true);
+        m_Selection_Down = m_Selection.FindAction("Down", throwIfNotFound: true);
+        m_Selection_Left = m_Selection.FindAction("Left", throwIfNotFound: true);
+        m_Selection_Right = m_Selection.FindAction("Right", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -378,22 +292,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // Selection
     private readonly InputActionMap m_Selection;
     private List<ISelectionActions> m_SelectionActionsCallbackInterfaces = new List<ISelectionActions>();
-    private readonly InputAction m_Selection_SelectAboveTile;
-    private readonly InputAction m_Selection_SelectBelowTile;
-    private readonly InputAction m_Selection_SelectLeftTile;
-    private readonly InputAction m_Selection_SelectRightTile;
-    private readonly InputAction m_Selection_Confirm;
-    private readonly InputAction m_Selection_Cancel;
+    private readonly InputAction m_Selection_Up;
+    private readonly InputAction m_Selection_Down;
+    private readonly InputAction m_Selection_Left;
+    private readonly InputAction m_Selection_Right;
     public struct SelectionActions
     {
         private @PlayerControls m_Wrapper;
         public SelectionActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @SelectAboveTile => m_Wrapper.m_Selection_SelectAboveTile;
-        public InputAction @SelectBelowTile => m_Wrapper.m_Selection_SelectBelowTile;
-        public InputAction @SelectLeftTile => m_Wrapper.m_Selection_SelectLeftTile;
-        public InputAction @SelectRightTile => m_Wrapper.m_Selection_SelectRightTile;
-        public InputAction @Confirm => m_Wrapper.m_Selection_Confirm;
-        public InputAction @Cancel => m_Wrapper.m_Selection_Cancel;
+        public InputAction @Up => m_Wrapper.m_Selection_Up;
+        public InputAction @Down => m_Wrapper.m_Selection_Down;
+        public InputAction @Left => m_Wrapper.m_Selection_Left;
+        public InputAction @Right => m_Wrapper.m_Selection_Right;
         public InputActionMap Get() { return m_Wrapper.m_Selection; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -403,46 +313,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_SelectionActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_SelectionActionsCallbackInterfaces.Add(instance);
-            @SelectAboveTile.started += instance.OnSelectAboveTile;
-            @SelectAboveTile.performed += instance.OnSelectAboveTile;
-            @SelectAboveTile.canceled += instance.OnSelectAboveTile;
-            @SelectBelowTile.started += instance.OnSelectBelowTile;
-            @SelectBelowTile.performed += instance.OnSelectBelowTile;
-            @SelectBelowTile.canceled += instance.OnSelectBelowTile;
-            @SelectLeftTile.started += instance.OnSelectLeftTile;
-            @SelectLeftTile.performed += instance.OnSelectLeftTile;
-            @SelectLeftTile.canceled += instance.OnSelectLeftTile;
-            @SelectRightTile.started += instance.OnSelectRightTile;
-            @SelectRightTile.performed += instance.OnSelectRightTile;
-            @SelectRightTile.canceled += instance.OnSelectRightTile;
-            @Confirm.started += instance.OnConfirm;
-            @Confirm.performed += instance.OnConfirm;
-            @Confirm.canceled += instance.OnConfirm;
-            @Cancel.started += instance.OnCancel;
-            @Cancel.performed += instance.OnCancel;
-            @Cancel.canceled += instance.OnCancel;
+            @Up.started += instance.OnUp;
+            @Up.performed += instance.OnUp;
+            @Up.canceled += instance.OnUp;
+            @Down.started += instance.OnDown;
+            @Down.performed += instance.OnDown;
+            @Down.canceled += instance.OnDown;
+            @Left.started += instance.OnLeft;
+            @Left.performed += instance.OnLeft;
+            @Left.canceled += instance.OnLeft;
+            @Right.started += instance.OnRight;
+            @Right.performed += instance.OnRight;
+            @Right.canceled += instance.OnRight;
         }
 
         private void UnregisterCallbacks(ISelectionActions instance)
         {
-            @SelectAboveTile.started -= instance.OnSelectAboveTile;
-            @SelectAboveTile.performed -= instance.OnSelectAboveTile;
-            @SelectAboveTile.canceled -= instance.OnSelectAboveTile;
-            @SelectBelowTile.started -= instance.OnSelectBelowTile;
-            @SelectBelowTile.performed -= instance.OnSelectBelowTile;
-            @SelectBelowTile.canceled -= instance.OnSelectBelowTile;
-            @SelectLeftTile.started -= instance.OnSelectLeftTile;
-            @SelectLeftTile.performed -= instance.OnSelectLeftTile;
-            @SelectLeftTile.canceled -= instance.OnSelectLeftTile;
-            @SelectRightTile.started -= instance.OnSelectRightTile;
-            @SelectRightTile.performed -= instance.OnSelectRightTile;
-            @SelectRightTile.canceled -= instance.OnSelectRightTile;
-            @Confirm.started -= instance.OnConfirm;
-            @Confirm.performed -= instance.OnConfirm;
-            @Confirm.canceled -= instance.OnConfirm;
-            @Cancel.started -= instance.OnCancel;
-            @Cancel.performed -= instance.OnCancel;
-            @Cancel.canceled -= instance.OnCancel;
+            @Up.started -= instance.OnUp;
+            @Up.performed -= instance.OnUp;
+            @Up.canceled -= instance.OnUp;
+            @Down.started -= instance.OnDown;
+            @Down.performed -= instance.OnDown;
+            @Down.canceled -= instance.OnDown;
+            @Left.started -= instance.OnLeft;
+            @Left.performed -= instance.OnLeft;
+            @Left.canceled -= instance.OnLeft;
+            @Right.started -= instance.OnRight;
+            @Right.performed -= instance.OnRight;
+            @Right.canceled -= instance.OnRight;
         }
 
         public void RemoveCallbacks(ISelectionActions instance)
@@ -480,11 +378,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface ISelectionActions
     {
-        void OnSelectAboveTile(InputAction.CallbackContext context);
-        void OnSelectBelowTile(InputAction.CallbackContext context);
-        void OnSelectLeftTile(InputAction.CallbackContext context);
-        void OnSelectRightTile(InputAction.CallbackContext context);
-        void OnConfirm(InputAction.CallbackContext context);
-        void OnCancel(InputAction.CallbackContext context);
+        void OnUp(InputAction.CallbackContext context);
+        void OnDown(InputAction.CallbackContext context);
+        void OnLeft(InputAction.CallbackContext context);
+        void OnRight(InputAction.CallbackContext context);
     }
 }
