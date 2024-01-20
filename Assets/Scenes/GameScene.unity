@@ -2407,7 +2407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 484454646}
   - component: {fileID: 484454648}
-  - component: {fileID: 484454645}
+  - component: {fileID: 484454649}
   - component: {fileID: 484454647}
   m_Layer: 0
   m_Name: GameController
@@ -2416,30 +2416,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &484454645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484454644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68b21c4a66bf22d41952fc63dfd78fe3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 2908584425829728867, guid: 2cf6cca20020e004cb24dc0750b143a9, type: 3}
-  selectedMapIndex: 0
-  tilemap: {fileID: 681909664}
-  p1Overlay: {fileID: 414465946}
-  p2Overlay: {fileID: 743792672}
-  p1SelectionTile: {fileID: 11400000, guid: b447ff297fa36ab419b6aa1ac2275958, type: 2}
-  p2SelectionTile: {fileID: 11400000, guid: 8738abad0a7325845a6ee3b8cbf12fd9, type: 2}
-  player1Confirm: 0
-  player2Confirm: 0
-  turnCount: 0
-  _collectionGoal: 99
-  _gameType: 1
 --- !u!4 &484454646
 Transform:
   m_ObjectHideFlags: 0
@@ -2493,6 +2469,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a1b7ad9e706dc47aff0e9b1836d10e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &484454649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484454644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 149b1fc0e9c4b6f45aa1cc1568020806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 2908584425829728867, guid: 5ee49ebfba1652b4aaf604e1cc9e535a, type: 3}
+  cpuPrefab: {fileID: 2908584425829728867, guid: b3b961ffaab8888489650f89e8cdc097, type: 3}
+  selectedMapIndex: 0
+  tilemap: {fileID: 681909664}
+  foodRespawnChance: 25
+  collectionGoal: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -6292,7 +6286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1666887412}
-  - component: {fileID: 1666887411}
+  - component: {fileID: 1666887413}
   m_Layer: 0
   m_Name: UIController
   m_TagString: Untagged
@@ -6300,30 +6294,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1666887411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1666887410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 761213493b0702444b55b710a0c57ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectionGoal: 5
-  p1Health: {fileID: 679294683}
-  p1Hunger: {fileID: 1624609721}
-  p1Thirst: {fileID: 531191050}
-  p1Collected: {fileID: 940462110}
-  p2Health: {fileID: 1559842179}
-  p2Hunger: {fileID: 284191348}
-  p2Thirst: {fileID: 170659578}
-  p2Collected: {fileID: 1169023982}
-  player1: {fileID: 0}
-  player2: {fileID: 0}
-  winnerText: {fileID: 2127883699}
 --- !u!4 &1666887412
 Transform:
   m_ObjectHideFlags: 0
@@ -6339,6 +6309,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1666887413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666887410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f006abb9870914ca278ea7259d83a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectionGoal: 0
+  p1Health: {fileID: 679294683}
+  p1Hunger: {fileID: 1624609721}
+  p1Thirst: {fileID: 531191050}
+  p1Collected: {fileID: 940462110}
+  p2Health: {fileID: 1559842179}
+  p2Hunger: {fileID: 284191348}
+  p2Thirst: {fileID: 170659578}
+  p2Collected: {fileID: 1169023982}
+  player: {fileID: 0}
+  cpuPlayer: {fileID: 0}
+  winnerText: {fileID: 2127883699}
 --- !u!1 &1724360525
 GameObject:
   m_ObjectHideFlags: 0

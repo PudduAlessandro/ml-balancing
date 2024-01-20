@@ -235,7 +235,7 @@ public class Player : MonoBehaviour
 
     private void AStarPathFinding()
     {
-        _aStarBot.startPos = currentPosition;
+        _aStarBot.currentPos = currentPosition;
         _aStarBot.targetTileName = "";
         
         if (currentHunger < currentThirst)

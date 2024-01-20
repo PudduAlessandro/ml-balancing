@@ -7,14 +7,14 @@ using Random = UnityEngine.Random;
 
 public class WebGLHandler : MonoBehaviour
 {
-    private GameController _gameController;
+    private GameController1P _gameController;
     private string mapHash = "";
     private int mapIndex = 8;
     
     // Start is called before the first frame update
     void Start()
     {
-        _gameController = GetComponent<GameController>();
+        _gameController = GetComponent<GameController1P>();
         
         if (Application.isEditor)
         {
