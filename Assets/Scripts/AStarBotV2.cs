@@ -29,7 +29,6 @@ public class AStarBotV2 : MonoBehaviour
     {
         Vector3Int targetTilePosition = FindClosestTargetTilePos();
         path = FindPath(startPos, targetTilePosition);
-        path.Dequeue();
         return path;
     }
 
@@ -61,7 +60,7 @@ public class AStarBotV2 : MonoBehaviour
                 }
             }
         }
-
+        Debug.Log($"Found {targetTileName} tile at {closestTargetTile}");
         return closestTargetTile;
     }
     
@@ -137,7 +136,10 @@ public class AStarBotV2 : MonoBehaviour
             path.Enqueue(current);
         }
 
-        return new Queue<Vector3Int>(path.Reverse());
+        Queue<Vector3Int> reversedPath= new Queue<Vector3Int>(path.Reverse());
+        //reversedPath.Dequeue();
+        
+        return new Queue<Vector3Int>(reversedPath);
     }
     
     static List<Vector3Int> GetNeighbors(Vector3Int current)

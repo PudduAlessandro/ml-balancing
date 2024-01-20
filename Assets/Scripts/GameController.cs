@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
     //private int _playerMoveSpeed = 1; // Used for smooth movement
     public int turnCount = 0;
 
-    private int _collectionGoal = 5;
+    [SerializeField] private int _collectionGoal = 5;
     
     
     // UI
@@ -124,8 +124,8 @@ public class GameController : MonoBehaviour
         
         _player1.gameObject.transform.position = GetTileCenterPosition(player1SelectedTile);
         
-        _player1.FinishTurn(player1SelectedTile);
-        _player2.FinishTurn(player2SelectedTile);
+        _player1.FinishTurn();
+        _player2.FinishTurn();
         
         if (tilemap.GetTile(_player1.currentPosition).name.Equals("Food"))
         {

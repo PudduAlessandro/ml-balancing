@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WebGLHandler : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class WebGLHandler : MonoBehaviour
 
     public void InputMap(string hash = null)
     {
+
         mapIndex = hash switch
         {
             "a948fed06eddc83bf5c369e86b5e1e4dcdcb3258" => 0,
@@ -46,7 +48,7 @@ public class WebGLHandler : MonoBehaviour
             "57080b4d5cdbe96403537bb4418421aeefefdd0d" => 5,
             "3b38abef59db3446d3e2d8aa473bab6ea5ffadb0" => 6,
             "bae4e32a21350bbea99e989c7fa1859d29837df4" => 7,
-            _ => 8
+            _ => Random.Range(0, 9)
         };
 
         _gameController.selectedMapIndex = mapIndex;
