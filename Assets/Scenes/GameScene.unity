@@ -2486,7 +2486,7 @@ MonoBehaviour:
   selectedMapIndex: 0
   tilemap: {fileID: 681909664}
   foodRespawnChance: 25
-  collectionGoal: 5
+  collectionGoal: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

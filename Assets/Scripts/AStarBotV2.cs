@@ -28,8 +28,35 @@ public class AStarBotV2 : MonoBehaviour
     // Find Path to closest tile of a certain type
     public Queue<Vector3Int> FindPath()
     {
-        Vector3Int targetTilePosition = FindClosestTargetTilePos();
-        path = FindPath(currentPos, targetTilePosition);
+        int loopCount = 0;
+        
+        do
+        {
+            Vector3Int targetTilePosition = FindClosestTargetTilePos();
+        
+            // Check if required tile is at the current position
+            if (targetTilePosition == currentPos)
+            {
+                // Move one step in a random direction before returning to the current tile
+                currentPos = RandomStep(targetTilePosition);
+            }
+            
+            path = FindPath(currentPos, targetTilePosition);
+            
+            // If path returns null -> target tile probably unreachable -> add it to unreachable tiles list -> try pathfinding again with new tile
+            if (path == null)
+            {
+                unreachableTiles.Add(targetTilePosition);
+            }
+
+            loopCount++;
+        } while (path == null && loopCount < 36);
+
+        if (loopCount >= 36)
+        {
+            Debug.Log("Emergency break!");
+        }
+        
         if(path.Peek() == currentPos) path.Dequeue();
         return path;
     }
@@ -38,7 +65,7 @@ public class AStarBotV2 : MonoBehaviour
     private Vector3Int FindClosestTargetTilePos()
     {
         Vector3Int startPosition = currentPos; // Start of the path
-        Vector3Int closestTargetTile = Vector3Int.zero;
+        Vector3Int closestTargetTile = Vector3Int.forward;
         float closestActualDistance = float.MaxValue; // Distance to target tile which will be reduced until shortest is found 
 
         // Check all tiles within tilemap
@@ -47,7 +74,7 @@ public class AStarBotV2 : MonoBehaviour
             if(unreachableTiles.Contains(pos)) continue;
             
             // Check if the current tile has the needed type
-            if (tilemap.GetTile(pos).name.Contains(targetTileName) && !tilemap.GetTile(pos).name.Contains("Used"))
+            if (tilemap.GetTile(pos).name.Contains(targetTileName) && !tilemap.GetTile(pos).name.Contains("Used") && pos != startPosition)
             {
                 // Get distance from currentPosition to current target
                 float distance = Vector3Int.Distance(startPosition, pos);
@@ -62,7 +89,8 @@ public class AStarBotV2 : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"Found {targetTileName} tile at {closestTargetTile}");
+        
+        //Debug.Log($"Found {targetTileName} tile at {closestTargetTile}");
         return closestTargetTile;
     }
     
@@ -101,8 +129,14 @@ public class AStarBotV2 : MonoBehaviour
             }
         }
 
-        unreachableTiles.Add(targetPos);
-        return FindPath();
+        if (targetTileName.Equals("Food"))
+        {
+            targetTileName = "WAdjacent";
+        }
+        
+
+        //unreachableTiles.Add(targetPos);
+        return null;
     }
     
     static float HeuristicCostEstimate(Vector3Int start, Vector3Int goal)
@@ -161,5 +195,22 @@ public class AStarBotV2 : MonoBehaviour
         if (tilemap.GetTile(position) == null) return false;
         
         return !tilemap.GetTile(position).name.Contains("Wall") && !tilemap.GetTile(position).name.Contains("Water");
+    }
+    
+    private Vector3Int RandomStep(Vector3Int targetTilePosition)
+    {
+        var possibleSteps = new List<Vector3Int>();
+        
+        foreach (var pos in GetNeighbors(targetTilePosition))
+        {
+            var tileName = tilemap.GetTile(pos).name;
+            if(tileName.Contains("Wall") || tileName.Contains("Water")) continue;
+            
+            possibleSteps.Add(pos);
+        }
+
+        var rand = Random.Range(0, possibleSteps.Count - 1);
+
+        return possibleSteps[rand];
     }
 }

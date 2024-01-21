@@ -58,11 +58,6 @@ public class PlayerV2 : MonoBehaviour
         gameObject.transform.position = map.CellToWorld(spawnPosition) + new Vector3(0.5f, 0.5f, 0);
         currentPosition = spawnPosition;
 
-        // Set all gameplay values to max if necessary
-        //currentHealth = 100;
-        //currentHunger = 100;
-        //currentThirst = 100;
-        
         // Setup UI bars
         SetupStatusBars();
         

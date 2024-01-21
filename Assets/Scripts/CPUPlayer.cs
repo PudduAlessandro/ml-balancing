@@ -175,6 +175,10 @@ public class CPUPlayer : MonoBehaviour
         currentFood -= 10;
         currentWater -= 10;
         
+        // Keep values between max. value and zero
+        currentFood = Mathf.Clamp(currentFood, 0, 100);
+        currentWater = Mathf.Clamp(currentWater, 0, 100);
+        
         FoodCheck();
         WaterCheck(currentPosition);
 
