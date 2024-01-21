@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -42,6 +43,7 @@ public class GameController1P : MonoBehaviour
         
         // Create the players and position them on their spawn points
         SpawnPlayers();
+        _uiController.UpdateUI();
     }
 
     private void SpawnPlayers()
@@ -85,14 +87,20 @@ public class GameController1P : MonoBehaviour
         _player.UpdateStatus();
         _cpuPlayer.UpdateStatus();
         
-        if (tilemap.GetTile(_player.currentPosition).name.Equals("Food"))
+        if (tilemap.GetTile(_player.currentPosition).name.Contains("Food"))
         {
-            tilemap.SetTile(_player.currentPosition, _mapGenerator.tiles[6]);
+            tilemap.SetTile(_player.currentPosition,
+                tilemap.GetTile(_player.currentPosition).name.Contains("WAdjacent")
+                    ? _mapGenerator.tiles[6]
+                    : _mapGenerator.tiles[9]);
         }
         
-        if (tilemap.GetTile(_cpuPlayer.currentPosition).name.Equals("Food"))
+        if (tilemap.GetTile(_cpuPlayer.currentPosition).name.Contains("Food"))
         {
-            tilemap.SetTile(_cpuPlayer.currentPosition, _mapGenerator.tiles[6]);
+            tilemap.SetTile(_cpuPlayer.currentPosition,
+                tilemap.GetTile(_cpuPlayer.currentPosition).name.Contains("WAdjacent")
+                    ? _mapGenerator.tiles[6]
+                    : _mapGenerator.tiles[9]);
         }
         
     }
