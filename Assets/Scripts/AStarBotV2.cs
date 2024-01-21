@@ -30,8 +30,7 @@ public class AStarBotV2 : MonoBehaviour
     {
         Vector3Int targetTilePosition = FindClosestTargetTilePos();
         path = FindPath(currentPos, targetTilePosition);
-        if(path.Peek() == currentPos);
-        path.Dequeue();
+        if(path.Peek() == currentPos) path.Dequeue();
         return path;
     }
 
