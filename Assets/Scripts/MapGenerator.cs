@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
@@ -11,6 +14,7 @@ public class MapGenerator : MonoBehaviour
     public Vector3Int player1Spawn, player2Spawn;
 
     [SerializeField] public Tile[] tiles;
+    private TileBase waterAdjacentGrass, waterAdjacentFood, waterAdjacentFoodUsed;
 
     private int[][] _mapArray;
 
@@ -45,21 +49,6 @@ public class MapGenerator : MonoBehaviour
         "2 3 0 2 0 2,0 0 0 2 2 0,2 5 0 2 0 2,2 0 0 1 1 0,2 0 1 1 1 4,2 1 2 0 2 0"  // TEST MAP
     };
 
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
-        
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // TODO: Add parameter for map file
     public Tilemap BuildMap()
     {
@@ -91,6 +80,7 @@ public class MapGenerator : MonoBehaviour
             foreach (string x in y.Split(" "))
             {
                 _tilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
+                //UpdateTileName(_tilemap, new Vector3Int(xCoord, -yCoord), int.Parse(x));
                 
                 if (int.Parse(x) == 4)
                 {
@@ -106,7 +96,59 @@ public class MapGenerator : MonoBehaviour
             yCoord++;
         }
 
+        _tilemap.CompressBounds();
+        MarkWaterAdjacentTiles(_tilemap);
+        
         return _tilemap;
+    }
+    
+
+    private void UpdateTileName(Tilemap tilemap, Vector3Int pos, int tileType)
+    {
+        string newName = "";
+
+        switch (tileType)
+        {
+            case 0: 
+            case 4:
+            case 5: newName = "Grass";
+                break;
+            case 1: newName = "Food";
+                break;
+            case 2: newName = "Wall";
+                break;
+            case 3: newName = "Water";
+                break;
+            case 6: newName = "FoodUsed";
+                break;
+        }
+
+        tilemap.GetTile(pos).name = newName;
+    }
+
+    private void MarkWaterAdjacentTiles(Tilemap tilemap)
+    {
+        foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+        {
+            if (!tilemap.GetTile(pos).name.Contains("Water")) continue;
+            
+            foreach (Vector3Int neighbor in GetNeighbors(tilemap, pos))
+            {
+                if (tilemap.GetTile(neighbor) != null && !tilemap.GetTile(neighbor).name.Contains("WAdjacent") && !tilemap.GetTile(neighbor).name.Contains("Wall"))
+                {
+                    switch (tilemap.GetTile(neighbor).name)
+                    {
+                        case "Grass": tilemap.SetTile(neighbor, tiles[7]);
+                            break;
+                        case "Food": tilemap.SetTile(neighbor, tiles[8]);
+                            break;
+                        case "FoodUsed": tilemap.SetTile(neighbor, tiles[9]);
+                            break;
+                    }
+                    
+                }
+            }
+        }
     }
 
     private IEnumerator GetFile(string path)
@@ -121,8 +163,15 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    void CreateTiles()
+    Vector3Int[] GetNeighbors(Tilemap tilemap, Vector3Int pos)
     {
+        Vector3Int above = pos + Vector3Int.up;
+        Vector3Int right = pos + Vector3Int.right;
+        Vector3Int below = pos + Vector3Int.down;
+        Vector3Int left = pos + Vector3Int.left;
         
+        Vector3Int[] neighborArray = new []{above, right, below, left};
+
+        return neighborArray;
     }
 }

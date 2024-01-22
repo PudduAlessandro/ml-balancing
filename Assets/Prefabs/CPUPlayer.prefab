@@ -114,12 +114,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8892089489044540395}
-  - component: {fileID: 5795678487260174421}
-  - component: {fileID: 7696615433049806139}
-  - component: {fileID: 8900543135473183505}
+  - component: {fileID: 8064319203332045692}
   - component: {fileID: 6737234376283217548}
   m_Layer: 0
-  m_Name: Player + UI
+  m_Name: CPUPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +140,7 @@ Transform:
   - {fileID: 9098176905588851637}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5795678487260174421
+--- !u!114 &8064319203332045692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,163 +149,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2908584425829728867}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03fc41c6ed5b9524db3548c439749acd, type: 3}
+  m_Script: {fileID: 11500000, guid: 4539a19c6a0642d43b61e2e57fad4321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 100
   currentHunger: 100
   currentThirst: 100
+  _GameController: {fileID: 0}
   collectedFood: 0
-  rotationSpeed: 3
-  isPlayerTwo: 0
-  playerType: 0
   currentPosition: {x: 0, y: 0, z: 0}
-  overlayMap: {fileID: 0}
-  selectedPosition: {x: 0, y: 0, z: 0}
-  turnConfirmed: 0
-  CPUSmartMove: 1
---- !u!114 &7696615433049806139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2908584425829728867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: e1cc5a021de288e4b9203d2a2cb61f79, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 1893d100-5171-4e63-b5a5-a454ee7a41d5
-    m_ActionName: Selection/Select Above Tile[/Keyboard/w]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 17296216-577b-486b-acb6-cf76080cef10
-    m_ActionName: Selection/Select Below Tile[/Keyboard/s]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: c823d076-a2d3-4738-b1f2-eb297b5626e5
-    m_ActionName: Selection/Select Left Tile[/Keyboard/a]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 6a1cb7e9-5a03-4813-903d-f73da1d2312a
-    m_ActionName: Selection/Select Right Tile[/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f1255886-838c-4038-8d29-ab73c42c3a72
-    m_ActionName: Selection/Confirm Turn[/Keyboard/e]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f669ebed-d145-400a-a817-215c9b4e9f0b
-    m_ActionName: Selection/Cancel[/Keyboard/q]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Selection
-  m_SplitScreenIndex: 0
-  m_Camera: {fileID: 0}
---- !u!114 &8900543135473183505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2908584425829728867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40e6711591af3e24693b0c66ef966088, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
-  closestTargetTile: {x: 0, y: 0, z: 0}
-  targetTileTypes: []
-  currentPosition: {x: 0, y: 0, z: 0}
+  selectedPosition: {x: 0, y: 0, z: 1}
 --- !u!114 &6737234376283217548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4766a32bf87410846acc52d3ef374ca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemap: {fileID: 0}
+  targetTileName: 
+  startPos: {x: 0, y: 0, z: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  lockCurrentTargetType: 0
 --- !u!1 &3540936411739781507
 GameObject:
   m_ObjectHideFlags: 0

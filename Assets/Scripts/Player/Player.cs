@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     // Core gameplay stats
     [Range(0, 100)] public int currentHealth = 100, currentHunger = 100, currentThirst = 100;
 
+    public GameController _GameController;
+
     public int collectedFood;
     
     // max values in case range attribute doesnt do its thing
@@ -61,6 +63,13 @@ public class Player : MonoBehaviour
     
     // UI stuff
     private StatusBarController healthBar, hungerBar, thirstBar;
+    
+    // Bot for smarter movement
+    public bool CPUSmartMove = true;
+    private DjikstraBot _djikstraBot;
+    private Queue<Vector3Int> pathToTarget;
+
+    private AStarBotV2 _aStarBot;
 
 
     // Start is called before the first frame update
@@ -76,10 +85,11 @@ public class Player : MonoBehaviour
 
     }
 
-    public void SetupPlayer(string playerName, Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile, bool isHumanPlayer)
+    public void SetupPlayer(string playerName, Transform parentTransform, Tilemap overlayTilemap, Tilemap map, Vector3Int spawnPosition, Tile playerSelectionTile, bool isHumanPlayer, GameController gameController)
     {
         gameObject.name = playerName;
         playerType = isHumanPlayer ? PlayerType.HUMAN : PlayerType.COMPUTER;
+        _GameController = gameController;
 
         _tilemap = map;
         gameObject.transform.parent = parentTransform;
@@ -99,6 +109,17 @@ public class Player : MonoBehaviour
 
         if (playerType != PlayerType.COMPUTER) return;
         GetComponent<PlayerInput>().enabled = false;
+        if (CPUSmartMove)
+        {
+            //_djikstraBot = GetComponent<DjikstraBot>();
+            //_djikstraBot.tilemap = _tilemap;
+            //_djikstraBot.SetupBot();
+
+            _aStarBot = GetComponent<AStarBotV2>();
+            _aStarBot.tilemap = _tilemap;
+            _aStarBot.SetupBot();
+        }
+       
         playerSprite.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         CPUInput();
     }
@@ -163,8 +184,89 @@ public class Player : MonoBehaviour
 
     public void CPUInput()
     {
-        bool validTurn = false;
+        if (CPUSmartMove)
+        {
+            if (pathToTarget == null || pathToTarget.Count == 0)
+            {
+              AStarPathFinding();
+              MoveAlongPath();
+            }
+            else
+            {
+                if (_aStarBot.targetTileName.Equals("Food"))
+                {
+                   if (IsTargetStillThere())
+                   {
+                       MoveAlongPath();
+                   }
+                   else
+                   {
+                       _aStarBot.targetTileName = "WAdjacent";
+                       AStarPathFinding();
+                   }
+                }
+                else
+                {
+                   MoveAlongPath(); 
+                }
+            }
+            
+            //SmartMovementDjikstra();
+        }
+        else
+        {
+            RandomMovement();
+        }
+        
 
+        turnConfirmed = true;
+    }
+
+    private bool IsTargetStillThere()
+    {
+        return _tilemap.GetTile(_aStarBot.targetPos).name.Contains("Food") &&
+               !_tilemap.GetTile(_aStarBot.targetPos).name.Contains("Used");
+    }
+
+    private void MoveAlongPath()
+    {
+        selectedPosition = pathToTarget.Dequeue();
+    }
+
+    private void AStarPathFinding()
+    {
+        _aStarBot.currentPos = currentPosition;
+        _aStarBot.targetTileName = "";
+        
+        if (currentHunger < currentThirst)
+        {
+            _aStarBot.targetTileName = "Food";
+            _aStarBot.lockCurrentTargetType = false;
+        } 
+        else if(currentHunger > currentThirst)
+        {
+            _aStarBot.targetTileName = "WAdjacent";
+            _aStarBot.lockCurrentTargetType = false;
+        } 
+        else if(currentHunger == currentThirst)
+        {
+            if (!_aStarBot.lockCurrentTargetType)
+            { 
+                var random = Random.Range(0, 2);
+                _aStarBot.targetTileName = (random == 1 ? "Food" : "WAdjacent"); 
+                _aStarBot.lockCurrentTargetType = true; 
+            }
+            
+        }
+
+        pathToTarget = _aStarBot.FindPath();
+
+    }
+
+    private void RandomMovement()
+    {
+        bool validTurn = false;
+        
         do
         {
             int randomAction = Random.Range(0, 4);
@@ -196,7 +298,7 @@ public class Player : MonoBehaviour
                     break;
                 }
             }
-            
+
             if (CheckTile(_tempSelectedPosition) != null)
             {
                 overlayMap.ClearAllTiles();
@@ -204,10 +306,7 @@ public class Player : MonoBehaviour
                 overlayMap.SetTile(selectedPosition, _selectionTile);
                 validTurn = true;
             }
-            
         } while (validTurn == false);
-
-        turnConfirmed = true;
     }
 
     private TileBase CheckTile(Vector3Int tileToCheckPos)
@@ -220,7 +319,7 @@ public class Player : MonoBehaviour
         if (CheckForOutOfBounds(tileToCheckPos)) return null;
         
         TileBase tileBase = _tilemap.GetTile(tileToCheckPos);
-        if (tileBase.name.Equals("1_GRASS") || tileBase.name.Equals("3_FOREST") || tileBase.name.Equals("5_P1SPAWN") || tileBase.name.Equals("6_P2SPAWN") || tileBase.name.Equals("7_FORESTUSED"))
+        if (tileBase.name.Contains("Grass") || tileBase.name.Contains("Food"))
         {
             return tileBase;
         }
@@ -232,10 +331,10 @@ public class Player : MonoBehaviour
         return (tileToCheckPos.x is > 5 or < 0 || tileToCheckPos.y is > 0 or < -5);
     }
 
-    public void FinishTurn(Vector3Int newPosition)
+    public void FinishTurn()
     {
         turnConfirmed = false;
-        currentPosition = newPosition;
+        currentPosition = _tilemap.WorldToCell(transform.position);
         selectedPosition = Vector3Int.forward;
         _tempSelectedPosition = Vector3Int.forward;
         overlayMap.ClearAllTiles();
@@ -311,7 +410,7 @@ public class Player : MonoBehaviour
             nearbyTiles.Add(_tilemap.GetTile(tileToCheck + new Vector3Int(-1, 0, 0)));
         }
 
-        if (nearbyTiles.Any(tile => tile.name.Equals("4_WATER")))
+        if (nearbyTiles.Any(tile => tile.name.Contains("Water")))
         {
             currentThirst = _maxThirst;
         }
@@ -320,9 +419,14 @@ public class Player : MonoBehaviour
 
     private void FoodCheck()
     {
+        if (currentPosition == Vector3Int.forward)
+        {
+            Debug.Log("currentPositon was Vector3Int.forward - Correcting..");
+            currentPosition = _tilemap.WorldToCell(transform.position);
+        }
         TileBase currentTile = CheckTile(currentPosition);
 
-        if (currentTile.name.Equals("3_FOREST"))
+        if (currentTile.name.Contains("Food") && !currentTile.name.Contains("Used"))
         {
             Eat();
             collectedFood++;
