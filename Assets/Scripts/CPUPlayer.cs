@@ -125,23 +125,20 @@ public class CPUPlayer : MonoBehaviour
         // Start position for the path that the bot is going to calculate
         _aStarBot.currentPos = currentPosition;
 
-        // If food is lower than water - look for food
-        if (currentFood < currentWater)
-        {
-            _aStarBot.lockCurrentTargetType = false;
-            _aStarBot.targetTileName = "Food";
-        } 
-        
-        // If water is lower than food - look for water
-        else if(currentFood > currentWater)
+        // If water is low - look for water, since it never runs out
+        if (currentWater <= 20)
         {
             _aStarBot.lockCurrentTargetType = false;
             _aStarBot.targetTileName = "WAdjacent";
-        } 
-        
+        }
+        else
+        {
+            _aStarBot.lockCurrentTargetType = false;
+            _aStarBot.targetTileName = "Food";
+        }
         // If both values are the same - choose random and lock the decision
         // until something has been collected
-        else if(currentFood == currentWater)
+        /*else if(currentFood == currentWater)
         {
             if (!_aStarBot.lockCurrentTargetType)
             { 
@@ -149,7 +146,8 @@ public class CPUPlayer : MonoBehaviour
                 _aStarBot.targetTileName = (random == 1 ? "Food" : "WAdjacent"); 
                 _aStarBot.lockCurrentTargetType = true; 
             }
-        }
+        }*/
+        
         _pathToTarget = _aStarBot.FindPath();
     }
     
