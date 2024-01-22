@@ -114,8 +114,8 @@ public class CPUPlayer : MonoBehaviour
             return MoveAlongPath();
         }
 
-        // Food isn't available anymore - switch focus to water for now
-        _aStarBot.targetTileName = "WAdjacent";
+        // Targeted food isn't available anymore - switch focus to water for now
+        // _aStarBot.targetTileName = "WAdjacent";
         AStarPathFinding();
         return MoveAlongPath();
     }
