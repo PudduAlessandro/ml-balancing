@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class AStarBotV2 : MonoBehaviour
@@ -54,7 +52,7 @@ public class AStarBotV2 : MonoBehaviour
 
         if (loopCount >= 36)
         {
-            Debug.Log("Emergency break!");
+            //Debug.Log("Emergency break!");
         }
         
         if(path.Peek() == currentPos) path.Dequeue();
@@ -134,8 +132,6 @@ public class AStarBotV2 : MonoBehaviour
             targetTileName = "WAdjacent";
         }
         
-
-        //unreachableTiles.Add(targetPos);
         return null;
     }
     
