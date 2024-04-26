@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class GameController1P : MonoBehaviour
 {
@@ -15,6 +19,7 @@ public class GameController1P : MonoBehaviour
 
     // Map related
     public int selectedMapIndex;
+    public string mapString;
     private MapGenerator _mapGenerator;
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private int foodRespawnChance = 25; // 1 equals 0.1%
@@ -25,14 +30,54 @@ public class GameController1P : MonoBehaviour
 
     // UI
     private UIControllerV2 _uiController;
-    
-    
+
+
+    public void Start()
+    {
+        if (PlayerPrefs.HasKey("startByURL"))
+        {
+            var uri = new Uri(Application.absoluteURL);
+
+            string level = uri.GetComponents(UriComponents.Query, UriFormat.SafeUnescaped);
+
+            if (!string.IsNullOrEmpty(level))
+            {
+                var value = level.Split('=')[1];
+
+                if (Regex.IsMatch(value, @"\d{36}"))
+                {
+                    Debug.Log($"Parameter: {value}) ist in Ordnung");
+                    PlayerPrefs.SetString("map", DecodeMapString(value));
+                }
+                else
+                {
+                    Debug.Log($"Parameter: {value}) ist nicht in Ordnung");
+                    SceneManager.LoadScene("MainMenu");
+                }
+            }
+            else
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
+
+        SetupGame();
+    }
+
     // Set up the map, players, etc.
     public void SetupGame()
     {
+        if (PlayerPrefs.HasKey("map"))
+        {
+            mapString = PlayerPrefs.GetString("map");
+        }
+        
         // MapGenerator is on the same object
         _mapGenerator = gameObject.GetComponent<MapGenerator>();
         _mapGenerator.selectedMap = (MapGenerator.Map)selectedMapIndex;
+        _mapGenerator.mapString = mapString;
+        
+        
         
         // Currently on separate object but can be moved
         _uiController = GameObject.Find("UIController").GetComponent<UIControllerV2>();
@@ -117,7 +162,7 @@ public class GameController1P : MonoBehaviour
                 
                 if (!tilemap.GetTile(tilePos).name.Contains("FoodUsed")) continue;
                 
-                var randomValue = Random.Range(0, 1001);
+                var randomValue = Random.Range(0, 1000);
 
                 if (randomValue > foodRespawnChance) continue;
 
@@ -161,5 +206,10 @@ public class GameController1P : MonoBehaviour
         _uiController.UpdateWinner(winner);
 
         return true;
+    }
+    
+    private string DecodeMapString(string mapString)
+    {
+        return Regex.Replace(mapString, @"(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", "$1 $2 $3 $4 $5 $6,").TrimEnd(',');
     }
 }

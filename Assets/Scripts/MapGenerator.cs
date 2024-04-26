@@ -18,7 +18,7 @@ public class MapGenerator : MonoBehaviour
 
     private int[][] _mapArray;
 
-    private string mapString;
+    public string mapString;
     private string tempMapString = "";
 
     [SerializeField] public Map selectedMap;
@@ -56,7 +56,8 @@ public class MapGenerator : MonoBehaviour
     // TODO: Add parameter for map file
     public Tilemap BuildMap()
     {
-        _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
+        GameObject tilemapObject = GameObject.Find("MapTilemap");
+        _tilemap = tilemapObject.GetComponent<Tilemap>();
 
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
@@ -76,9 +77,9 @@ public class MapGenerator : MonoBehaviour
         int xCoord = 0;
         int yCoord = 0;
 
-        string map = mapStrings[(int)selectedMap];
+        //string map = mapStrings[(int)selectedMap];
 
-        foreach (string y in map.Split(","))
+        foreach (string y in mapString.Split(","))
         {
             xCoord = 0;
             foreach (string x in y.Split(" "))
@@ -153,17 +154,6 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-    }
-
-    private IEnumerator GetFile(string path)
-    {
-        var webRequest = UnityWebRequest.Get(path);
-
-        yield return webRequest.SendWebRequest();
-
-        if (webRequest.result != UnityWebRequest.Result.Success) yield break;
-        Debug.Log(webRequest.downloadHandler.text);
-        mapString = webRequest.downloadHandler.text;
     }
 
 
