@@ -31,42 +31,29 @@ public class MapEditor : MonoBehaviour
     private bool _onePlayer = true;
     private bool _oneOpponent = true;
     
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         mainCamera = Camera.main;
         BuildMap();
     }
-
-    // Update is called once per frame
+    
     private void Update()
     {
-        if (!Mouse.current.leftButton.wasPressedThisFrame) return; // Check if left mouse button is clicked
+        if (!Mouse.current.leftButton.wasPressedThisFrame) return;
         
-        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()); // Convert mouse position to world coordinates
-        Vector3Int cellPos = _tilemap.WorldToCell(mouseWorldPos); // Convert world coordinates to cell coordinates
-
-        // Check if the clicked position is within the bounds of the tilemap
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector3Int cellPos = _tilemap.WorldToCell(mouseWorldPos);
+        
         if (_tilemap.cellBounds.Contains(cellPos))
         {
-            TileBase clickedTile = _tilemap.GetTile(cellPos); // Get the tile at the clicked cell position
+            TileBase clickedTile = _tilemap.GetTile(cellPos);
             if (clickedTile != null)
             {
-                Debug.Log("Clicked on tile: " + clickedTile.name + " at position: " + cellPos); // Output the name of the clicked tile
                 _tilemap.SetTile(cellPos, tiles[selectedTile]);
 
                 ValidateMap();
-                // You can perform further actions here based on the clicked tile
             }
-            else
-            {
-                Debug.Log("No tile found at position: " + cellPos);
-            }
-        }
-        else
-        {
-            Debug.Log("Clicked position is outside of tilemap bounds.");
         }
     }
 
@@ -88,25 +75,22 @@ public class MapEditor : MonoBehaviour
             Vector3Int localPlace = new Vector3Int(position.x, position.y, position.z);
             TileBase tile = _tilemap.GetTile(localPlace);
             
-            if (tile.name.Equals("Water"))
+            switch (tile.name)
             {
-                _waterExists = true;
-            } 
-            if (tile.name.Equals("Food"))
-            {
-                _foodExists = true;
-            }
-
-            if (tile.name.Equals("Player_Tile"))
-            {
-                playerTiles++;
-                _player1Spawn = localPlace;
-            }
-            
-            if (tile.name.Equals("Opponent_Tile"))
-            {
-                opponentTiles++;
-                _player2Spawn = localPlace;
+                case "Water":
+                    _waterExists = true;
+                    break;
+                case "Food":
+                    _foodExists = true;
+                    break;
+                case "Player_Tile":
+                    playerTiles++;
+                    _player1Spawn = localPlace;
+                    break;
+                case "Opponent_Tile":
+                    opponentTiles++;
+                    _player2Spawn = localPlace;
+                    break;
             }
         }
 
@@ -126,72 +110,101 @@ public class MapEditor : MonoBehaviour
             _validPathExists = FindPath(_player1Spawn, _player2Spawn);
         }
 
-        if (_onePlayer && _oneOpponent && _waterExists && _foodExists && _validPathExists)
+        if (_onePlayer)
         {
-            var testOutput = "";
-            
-            for (int y = bounds.yMax - 1; y >= bounds.yMin; y--)
+            if (_oneOpponent)
             {
-                for (int x = bounds.xMin; x < bounds.xMax; x++)
+                if (_waterExists)
                 {
-                    Vector3Int currentPos = new Vector3Int(x, y);
-                    TileBase currentTile = _tilemap.GetTile(currentPos);
-
-                    int tileValue = 0;
-
-                    switch (currentTile.name)
+                    if (_foodExists)
                     {
-                        case "Grass":
+                        if (_validPathExists)
                         {
-                            tileValue = 0;
-                            break;
-                        }
-                        case "Food":
-                        {
-                            tileValue = 1;
-                            break;
-                        }
-                        case "Wall":
-                        {
-                            tileValue = 2;
-                            break;
-                        }
-                        case "Water":
-                        {
-                            tileValue = 3;
-                            break;
-                        }
-                        case "Player_Tile":
-                        {
-                            tileValue = 4;
-                            break;
-                        }
-                        case "Opponent_Tile":
-                        {
-                            tileValue = 5;
-                            break;
-                        }
-                    }
+                            var testOutput = "";
+            
+                            for (int y = bounds.yMax - 1; y >= bounds.yMin; y--)
+                            {
+                                for (int x = bounds.xMin; x < bounds.xMax; x++)
+                                {
+                                    Vector3Int currentPos = new Vector3Int(x, y);
+                                    TileBase currentTile = _tilemap.GetTile(currentPos);
 
-                    if (x == (bounds.xMax - 1))
-                    {
-                        testOutput += tileValue + ",";
+                                    int tileValue = 0;
+
+                                    switch (currentTile.name)
+                                    {
+                                        case "Grass":
+                                        {
+                                            tileValue = 0;
+                                            break;
+                                        }
+                                        case "Food":
+                                        {
+                                            tileValue = 1;
+                                            break;
+                                        }
+                                        case "Wall":
+                                        {
+                                            tileValue = 2;
+                                            break;
+                                        }
+                                        case "Water":
+                                        {
+                                            tileValue = 3;
+                                            break;
+                                        }
+                                        case "Player_Tile":
+                                        {
+                                            tileValue = 4;
+                                            break;
+                                        }
+                                        case "Opponent_Tile":
+                                        {
+                                            tileValue = 5;
+                                            break;
+                                        }
+                                    }
+                                    testOutput += tileValue;
+                                }
+
+                            } 
+                            testOutput = testOutput.Remove(testOutput.Length - 1); 
+                            mapCodeField.text = testOutput;
+                            mapCodeField.textComponent.color = Color.black;
+                            copyButton.interactable = true;
+                        }
+                        else
+                        {
+                            mapCodeField.text = "No path between both players!";
+                            mapCodeField.textComponent.color = Color.red;
+                            copyButton.interactable = false;
+                        }
                     }
                     else
                     {
-                        testOutput += tileValue + " "; 
+                        mapCodeField.text = "No food tiles present!";
+                        mapCodeField.textComponent.color = Color.red;
+                        copyButton.interactable = false;
                     }
-                    
                 }
-
-            } 
-                testOutput = testOutput.Remove(testOutput.Length - 1); 
-                mapCodeField.text = testOutput;
-                copyButton.interactable = true;
-            
-        } else
+                else
+                {
+                    mapCodeField.text = "No water tiles present!";
+                    mapCodeField.textComponent.color = Color.red;
+                    copyButton.interactable = false;
+                }
+            }
+            else
+            {
+                mapCodeField.text = "More than one opponent tile placed";
+                mapCodeField.textComponent.color = Color.red;
+                copyButton.interactable = false;
+            }
+        }
+        else
         {
-            mapCodeField.text = "Invalid Level!";
+            mapCodeField.text = "More than one player tile placed";
+            mapCodeField.textComponent.color = Color.red;
             copyButton.interactable = false;
         }
     }
@@ -218,7 +231,7 @@ public class MapEditor : MonoBehaviour
     void BuildMap()
     {
 
-        string defaultMapString = "4 0 0 0 0 0,0 0 0 0 0 0,0 0 0 0 0 0,0 0 0 0 0 0,0 0 0 0 0 0,0 0 0 0 0 5";
+        string defaultMapString = "4 0 0 0 0 2,0 0 0 0 0 0,0 0 1 1 0 0,0 0 1 1 0 0,0 0 0 0 0 0,3 0 0 0 0 5";
         
         _tilemap = GameObject.Find("MapTilemap").GetComponent<Tilemap>();
     
@@ -253,7 +266,7 @@ public class MapEditor : MonoBehaviour
         }
     
         _tilemap.CompressBounds();
-        //SpawnPlayers();
+        ValidateMap();
     
     
     }
@@ -370,5 +383,21 @@ public class MapEditor : MonoBehaviour
         if (tilemap.GetTile(position) == null) return false;
         
         return !tilemap.GetTile(position).name.Contains("Wall") && !tilemap.GetTile(position).name.Contains("Water");
+    }
+
+    public void SetSelectedTile(int value)
+    {
+        selectedTile = value;
+
+        selectedTileText.text = selectedTile switch
+        {
+            0 => "Grass",
+            1 => "Wall",
+            2 => "Food",
+            3 => "Water",
+            4 => "Player",
+            5 => "Opponent",
+            _ => selectedTileText.text
+        };
     }
 }

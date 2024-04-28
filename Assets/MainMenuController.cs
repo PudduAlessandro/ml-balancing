@@ -1,35 +1,74 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
-public class UserMadeController : MonoBehaviour
+public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private Tilemap presetTilemap;
-    private TMP_InputField inputField;
+    [SerializeField] private Tilemap tilemap;
     [SerializeField] private Tile[] tiles;
-    [SerializeField] private Button startButton;
     [SerializeField] private TextMeshProUGUI errorLabel;
     
-    bool _waterExists = false;
-    bool _foodExists = false;
-    bool _onePlayer = false;
-    bool _oneOpponent = false;
-    bool _validPathExists = false;
+    bool _waterExists;
+    bool _foodExists;
+    bool _onePlayer;
+    bool _oneOpponent;
+    bool _validPathExists;
     
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        inputField = GetComponent<TMP_InputField>();
-        
-        string mapString = DecodeMapString(inputField.text);
-            
+        errorLabel.enabled = false;
+        if (string.IsNullOrEmpty(Application.absoluteURL))
+        {
+            return;
+        }
+
+        var uri = new Uri(Application.absoluteURL);
+
+        if (uri.AbsoluteUri.Split("/").Length > 1)
+        {
+            string level = uri.GetComponents(UriComponents.Query, UriFormat.SafeUnescaped);
+
+            if (!string.IsNullOrEmpty(level))
+            {
+                var value = level.Split('=')[1];
+
+                if (Regex.IsMatch(value, @"^[0-5]{36}$"))
+                {
+                    Debug.Log($"Parameter: {value}) is valid");
+
+                    string mapString = DecodeMapString(value);
+
+                    if (BuildAndValidateMap(mapString))
+                    {
+                       PlayerPrefs.SetString("map", mapString);
+                       SceneManager.LoadScene("GameScene"); 
+                    }
+                    else
+                    {
+                        errorLabel.text = "The entered level was invalid!";
+                        errorLabel.enabled = true;
+                    }
+                    
+                    
+                }
+                else
+                {
+                    Debug.Log($"errorlabel texT: {errorLabel.text}");
+                    errorLabel.text = "The entered level was invalid!";
+                    errorLabel.enabled = true;
+                }
+            }
+        }
+    }
+
+    private bool BuildAndValidateMap(string mapString)
+    {
         int xCoord = 0;
         int yCoord = 0;
         
@@ -38,63 +77,17 @@ public class UserMadeController : MonoBehaviour
             xCoord = 0;
             foreach (string x in y.Split(" "))
             {
-                presetTilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
+                tilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
                 xCoord++;
             }
 
             yCoord++;
         }
-        presetTilemap.CompressBounds();
+        tilemap.CompressBounds();
+
+        return ValidateMap();
     }
 
-    public void UpdatePreview(string value)
-    {
-        value = inputField.text;
-        
-        if (Regex.IsMatch(value,@"^[0-5]{36}$"))
-        {
-         
-                inputField.textComponent.color = Color.black;
-                string mapString = DecodeMapString(value);
-            
-                int xCoord = 0;
-                int yCoord = 0;
-        
-                foreach (string y in mapString.Split(","))
-                {
-                    xCoord = 0;
-                    foreach (string x in y.Split(" "))
-                    {
-                        presetTilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
-                        xCoord++;
-                    }
-
-                    yCoord++;
-                }
-
-                if (!ValidateMap())
-                {
-                    inputField.textComponent.color = Color.red;
-                    startButton.interactable = false;
-                    errorLabel.text = "Unplayable level!";
-                    errorLabel.gameObject.SetActive(true);
-                }
-                else
-                {
-                    inputField.textComponent.color = Color.black;
-                    startButton.interactable = true;
-                    errorLabel.gameObject.SetActive(false);
-                }
-        }
-        else
-        {
-            inputField.textComponent.color = Color.red;
-            startButton.interactable = false;
-            errorLabel.text = "Invalid level format!";
-            errorLabel.gameObject.SetActive(true);
-        }
-    }
-    
     private string DecodeMapString(string mapString)
     {
         return Regex.Replace(mapString, @"(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", "$1 $2 $3 $4 $5 $6,").TrimEnd(',');
@@ -102,7 +95,7 @@ public class UserMadeController : MonoBehaviour
     
     private bool ValidateMap()
     {
-        BoundsInt bounds = presetTilemap.cellBounds;
+        BoundsInt bounds = tilemap.cellBounds;
 
         _waterExists = false;
         _foodExists = false;
@@ -119,7 +112,7 @@ public class UserMadeController : MonoBehaviour
         foreach (var position in bounds.allPositionsWithin)
         {
             Vector3Int localPlace = new Vector3Int(position.x, position.y, position.z);
-            TileBase tile = presetTilemap.GetTile(localPlace);
+            TileBase tile = tilemap.GetTile(localPlace);
             
             if (tile.name.Equals("Water"))
             {
@@ -182,7 +175,7 @@ public class UserMadeController : MonoBehaviour
 
             foreach (Vector3Int neighbor in GetNeighbors(current))
             {
-                if (closedSet.Contains(neighbor) || !IsTileWalkable(neighbor, presetTilemap))
+                if (closedSet.Contains(neighbor) || !IsTileWalkable(neighbor, tilemap))
                     continue;
                 
                 float tentativeGScore = gScore[current] + 1; // Assuming all tile costs are the same (1)
