@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class StartGameFromEditor : MonoBehaviour
 {
+    //TODO: Create main menu wide controller instead of one script per button 
+    
     public TMP_InputField codeField;
 
     private Button button;

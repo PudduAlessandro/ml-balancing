@@ -59,7 +59,6 @@ public class MainMenuController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log($"errorlabel texT: {errorLabel.text}");
                     errorLabel.text = "The entered level was invalid!";
                     errorLabel.enabled = true;
                 }
@@ -232,7 +231,7 @@ public class MainMenuController : MonoBehaviour
         return new Queue<Vector3Int>(reversedPath);
     }
     
-    static List<Vector3Int> GetNeighbors(Vector3Int current)
+    private List<Vector3Int> GetNeighbors(Vector3Int current)
     {
         List<Vector3Int> neighbors = new List<Vector3Int>
         {
@@ -245,10 +244,26 @@ public class MainMenuController : MonoBehaviour
         return neighbors;
     }
     
-    static bool IsTileWalkable(Vector3Int position, Tilemap tilemap)
+    private bool IsTileWalkable(Vector3Int position, Tilemap tilemap)
     {
         if (tilemap.GetTile(position) == null) return false;
         
         return !tilemap.GetTile(position).name.Contains("Wall") && !tilemap.GetTile(position).name.Contains("Water");
     }
+
+    public void MenuButtonInput(int button)
+    {
+        switch (button)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+    }
+    
+    
+    
 }

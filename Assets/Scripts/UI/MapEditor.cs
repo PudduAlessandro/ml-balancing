@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -21,7 +22,8 @@ public class MapEditor : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject cpuPrefab;
     private GameObject playerObject, cpuObject;
-    public Button copyButton;
+    public Button copyMapStringButton;
+    public Button copyURLButton;
     
     
     private bool _validPathExists = false;
@@ -120,7 +122,7 @@ public class MapEditor : MonoBehaviour
                     {
                         if (_validPathExists)
                         {
-                            var testOutput = "";
+                            var mapStringOutput = "";
             
                             for (int y = bounds.yMax - 1; y >= bounds.yMin; y--)
                             {
@@ -164,49 +166,56 @@ public class MapEditor : MonoBehaviour
                                             break;
                                         }
                                     }
-                                    testOutput += tileValue;
+                                    mapStringOutput += tileValue;
                                 }
 
                             } 
-                            testOutput = testOutput.Remove(testOutput.Length - 1); 
-                            mapCodeField.text = testOutput;
-                            mapCodeField.textComponent.color = Color.black;
-                            copyButton.interactable = true;
+                            mapStringOutput = mapStringOutput.Remove(mapStringOutput.Length - 1); 
+                            UpdateMapString(mapStringOutput, true);
                         }
                         else
                         {
-                            mapCodeField.text = "No path between both players!";
-                            mapCodeField.textComponent.color = Color.red;
-                            copyButton.interactable = false;
+                            UpdateMapString("No valid path between both players!", false);
                         }
                     }
                     else
                     {
-                        mapCodeField.text = "No food tiles present!";
-                        mapCodeField.textComponent.color = Color.red;
-                        copyButton.interactable = false;
+                        UpdateMapString("No food tiles present!", false);
                     }
                 }
                 else
                 {
-                    mapCodeField.text = "No water tiles present!";
-                    mapCodeField.textComponent.color = Color.red;
-                    copyButton.interactable = false;
+                    UpdateMapString("No water tiles present!", false);
                 }
             }
             else
             {
-                mapCodeField.text = "More than one opponent tile placed";
-                mapCodeField.textComponent.color = Color.red;
-                copyButton.interactable = false;
+                UpdateMapString("More than one opponent tile placed!", false);
             }
         }
         else
         {
-            mapCodeField.text = "More than one player tile placed";
-            mapCodeField.textComponent.color = Color.red;
-            copyButton.interactable = false;
+            UpdateMapString("More than one player tile placed!", false);
         }
+    }
+
+    private void UpdateMapString(string text, bool isValid)
+    {
+        mapCodeField.text = text;
+
+        if (isValid)
+        {
+            mapCodeField.textComponent.color = Color.black;
+            copyMapStringButton.interactable = true;
+            copyURLButton.interactable = true;
+        }
+        else
+        {
+            mapCodeField.textComponent.color = Color.red;
+            copyMapStringButton.interactable = false;
+            copyURLButton.interactable = false;
+        }
+        
     }
 
 
