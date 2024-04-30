@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <style>
-      body {
-        background-color:#358ad9;
-      }
-    </style>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Spiel zur Umfrage</title>
+    <title>ML Balancing Prototype</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body>
-    <div style="padding: 40px; text-align: center;" id="return-button"><button style="font-size: 24px;" onclick="returnToSurvey()">Zurück zur Umfrage</button></div>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=1280 height=720 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -119,12 +113,6 @@
             };
 
       document.body.appendChild(script);
-
-      function returnToSurvey(){
-        if(confirm("Möchten Sie zur Umfrage zurückkehren?\n\nDadurch wird der aktuelle Tab geschlossen")){
-          window.close();
-        }
-      }
 
     </script>
   </body>

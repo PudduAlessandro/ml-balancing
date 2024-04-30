@@ -21,14 +21,7 @@ public class StartGameFromEditor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (codeField.text.Contains("Invalid"))
-        {
-            button.enabled = false;
-        }
-        else
-        {
-            button.enabled = true;
-        }
+        button.enabled = !codeField.text.Contains("Invalid");
     }
 
     public void StartGame()

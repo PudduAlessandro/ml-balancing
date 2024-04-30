@@ -2949,7 +2949,8 @@ MonoBehaviour:
   mapCodeField: {fileID: 1328216120}
   playerPrefab: {fileID: 2908584425829728867, guid: 5ee49ebfba1652b4aaf604e1cc9e535a, type: 3}
   cpuPrefab: {fileID: 2908584425829728867, guid: b3b961ffaab8888489650f89e8cdc097, type: 3}
-  copyButton: {fileID: 835896507}
+  copyMapStringButton: {fileID: 835896507}
+  copyURLButton: {fileID: 189684555}
 --- !u!114 &1004929184
 MonoBehaviour:
   m_ObjectHideFlags: 0
