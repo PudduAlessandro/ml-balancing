@@ -13,7 +13,7 @@ public class CPUPlayer : MonoBehaviour
     [Range(0, 100)] public int currentFood = 100;
     [Range(0, 100)] public int currentWater = 100;
 
-    public GameController1P gameController;
+    public GameController gameController;
 
     public int collectedFood;
     
@@ -50,11 +50,11 @@ public class CPUPlayer : MonoBehaviour
     private AStarBotV2 _aStarBot;
     
     
-    public void Setup(string playerName, Tilemap map, Vector3Int spawnPosition, GameController1P gameController1P)
+    public void Setup(string playerName, Tilemap map, Vector3Int spawnPosition, GameController gameController)
     {
         // Set name and GameController
         gameObject.name = playerName;
-        gameController = gameController1P;
+        this.gameController = gameController;
 
         // Set tilemap and spawn position
         _tilemap = map;
@@ -86,8 +86,8 @@ public class CPUPlayer : MonoBehaviour
         Transform statusBarsTransform = gameObject.transform.Find("UI Canvas").Find("StatusBars");
 
         _healthBar = statusBarsTransform.Find("Health Bar").GetComponent<StatusBarController>();
-        _foodBar = statusBarsTransform.Find("Hunger Bar").GetComponent<StatusBarController>();
-        _waterBar = statusBarsTransform.Find("Thirst Bar").GetComponent<StatusBarController>();
+        _foodBar = statusBarsTransform.Find("Food Bar").GetComponent<StatusBarController>();
+        _waterBar = statusBarsTransform.Find("Water Bar").GetComponent<StatusBarController>();
         
         
         _healthBar.SetMaxStatusValue(_maxHealth);

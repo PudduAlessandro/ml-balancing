@@ -30,7 +30,7 @@ public class PresetStartButton : MonoBehaviour
         
         PlayerPrefs.SetString("map",presetMaps[value]);
 
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadSceneAsync("GameScene");
         
     }
 }

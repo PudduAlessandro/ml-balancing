@@ -76,7 +76,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4982669010193322852, guid: ceba59d1a1bf551459a2ec062b2040e7, type: 3}
       propertyPath: m_Color.g
-      value: 0.12643671
+      value: 0.79024625
       objectReference: {fileID: 0}
     - target: {fileID: 4982669010193322852, guid: ceba59d1a1bf551459a2ec062b2040e7, type: 3}
       propertyPath: m_Color.r
@@ -84,7 +84,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8910506545565806655, guid: ceba59d1a1bf551459a2ec062b2040e7, type: 3}
       propertyPath: m_Name
-      value: Thirst Bar
+      value: Water Bar
       objectReference: {fileID: 0}
     - target: {fileID: 9049286739039094751, guid: ceba59d1a1bf551459a2ec062b2040e7, type: 3}
       propertyPath: m_Pivot.x
@@ -242,7 +242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8910506545565806655, guid: ceba59d1a1bf551459a2ec062b2040e7, type: 3}
       propertyPath: m_Name
-      value: Hunger Bar
+      value: Food Bar
       objectReference: {fileID: 0}
     - target: {fileID: 9049286739039094751, guid: ceba59d1a1bf551459a2ec062b2040e7, type: 3}
       propertyPath: m_Pivot.x

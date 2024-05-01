@@ -27,6 +27,6 @@ public class StartGameFromEditor : MonoBehaviour
     public void StartGame()
     {
         PlayerPrefs.SetString("map", codeField.text);
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadSceneAsync("GameScene");
     }
 }

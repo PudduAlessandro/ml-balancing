@@ -10,19 +10,58 @@ using UnityEngine.Tilemaps;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap;
     [SerializeField] private Tile[] tiles;
-    [SerializeField] private TextMeshProUGUI errorLabel;
+    private TextMeshProUGUI _errorLabel;
+    
+    private static MainMenuController _instance;
     
     bool _waterExists;
     bool _foodExists;
     bool _onePlayer;
     bool _oneOpponent;
     bool _validPathExists;
-    
-    private void Awake()
+
+    private bool _launchedFromMapString = false;
+
+    public static MainMenuController Instance
     {
-        errorLabel.enabled = false;
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<MainMenuController>();
+                if (_instance == null)
+                {
+                    GameObject singletonObject = new GameObject("MainMenuController");
+                    _instance = singletonObject.AddComponent<MainMenuController>();
+                }
+            }
+
+            return _instance;
+        }
+    }
+    
+    private void Start()
+    {
+        _errorLabel = GameObject.Find("/Canvas/UserLabel/ErrorLabel").GetComponent<TextMeshProUGUI>();
+        
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+        
+        if (Instance._launchedFromMapString)
+        {
+            return;
+        }
+        
+        _errorLabel.enabled = false;
         if (string.IsNullOrEmpty(Application.absoluteURL))
         {
             return;
@@ -47,20 +86,21 @@ public class MainMenuController : MonoBehaviour
                     if (BuildAndValidateMap(mapString))
                     {
                        PlayerPrefs.SetString("map", mapString);
-                       SceneManager.LoadScene("GameScene"); 
+                       Instance._launchedFromMapString = true;
+                       SceneManager.LoadSceneAsync("GameScene"); 
                     }
                     else
                     {
-                        errorLabel.text = "The entered level was invalid!";
-                        errorLabel.enabled = true;
+                        _errorLabel.text = "The entered level was invalid!";
+                        _errorLabel.enabled = true;
                     }
                     
                     
                 }
                 else
                 {
-                    errorLabel.text = "The entered level was invalid!";
-                    errorLabel.enabled = true;
+                    _errorLabel.text = "The entered level was invalid!";
+                    _errorLabel.enabled = true;
                 }
             }
         }
@@ -68,6 +108,8 @@ public class MainMenuController : MonoBehaviour
 
     private bool BuildAndValidateMap(string mapString)
     {
+        var tempTilemap = new GameObject().AddComponent<Tilemap>();
+        
         int xCoord = 0;
         int yCoord = 0;
         
@@ -76,15 +118,15 @@ public class MainMenuController : MonoBehaviour
             xCoord = 0;
             foreach (string x in y.Split(" "))
             {
-                tilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
+                tempTilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
                 xCoord++;
             }
 
             yCoord++;
         }
-        tilemap.CompressBounds();
+        tempTilemap.CompressBounds();
 
-        return ValidateMap();
+        return ValidateMap(tempTilemap);
     }
 
     private string DecodeMapString(string mapString)
@@ -92,7 +134,7 @@ public class MainMenuController : MonoBehaviour
         return Regex.Replace(mapString, @"(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", "$1 $2 $3 $4 $5 $6,").TrimEnd(',');
     }
     
-    private bool ValidateMap()
+    private bool ValidateMap(Tilemap tilemap)
     {
         BoundsInt bounds = tilemap.cellBounds;
 
@@ -148,14 +190,14 @@ public class MainMenuController : MonoBehaviour
 
         if (_onePlayer && _oneOpponent)
         {
-            _validPathExists = FindPath(player1Spawn, player2Spawn);
+            _validPathExists = FindPath(player1Spawn, player2Spawn, tilemap);
         }
 
         return _onePlayer && _oneOpponent && _waterExists && _foodExists && _validPathExists;
         
     }
 
-    private bool FindPath(Vector3Int startPosition, Vector3Int targetTilePosition)
+    private bool FindPath(Vector3Int startPosition, Vector3Int targetTilePosition, Tilemap tilemap)
     {
         HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
         HashSet<Vector3Int> openSet = new HashSet<Vector3Int>() { startPosition };
@@ -263,7 +305,4 @@ public class MainMenuController : MonoBehaviour
                 break;
         }
     }
-    
-    
-    
 }

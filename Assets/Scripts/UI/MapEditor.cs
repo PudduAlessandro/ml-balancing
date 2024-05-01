@@ -409,4 +409,5 @@ public class MapEditor : MonoBehaviour
             _ => selectedTileText.text
         };
     }
+
 }

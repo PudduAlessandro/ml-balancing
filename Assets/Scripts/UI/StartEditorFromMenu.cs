@@ -8,6 +8,6 @@ public class StartEditorFromMenu : MonoBehaviour
     // Start is called before the first frame update
     public void StartEditor()
     {
-        SceneManager.LoadScene("MapEditor");
+        SceneManager.LoadSceneAsync("MapEditor");
     }
 }

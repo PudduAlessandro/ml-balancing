@@ -61,27 +61,12 @@ public class MapGenerator : MonoBehaviour
         BoundsInt bounds = _tilemap.cellBounds;
         TileBase[] allTiles = _tilemap.GetTilesBlock(bounds);
 
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        var yCoord = 0;
+
+        foreach (var y in mapString.Split(","))
         {
-            //StartCoroutine(GetFile(Application.streamingAssetsPath + "/Maps/map2.txt"));
-
-        }
-        else
-        {
-           //mapString = File.ReadAllText(Application.streamingAssetsPath + "/Maps/map2.txt"); 
-        }
-        
-        
-
-        int xCoord = 0;
-        int yCoord = 0;
-
-        //string map = mapStrings[(int)selectedMap];
-
-        foreach (string y in mapString.Split(","))
-        {
-            xCoord = 0;
-            foreach (string x in y.Split(" "))
+            var xCoord = 0;
+            foreach (var x in y.Split(" "))
             {
                 _tilemap.SetTile(new Vector3Int(xCoord, -yCoord), tiles[int.Parse(x)]);
                 //UpdateTileName(_tilemap, new Vector3Int(xCoord, -yCoord), int.Parse(x));
@@ -104,30 +89,6 @@ public class MapGenerator : MonoBehaviour
         MarkWaterAdjacentTiles(_tilemap);
         
         return _tilemap;
-    }
-    
-
-    private void UpdateTileName(Tilemap tilemap, Vector3Int pos, int tileType)
-    {
-        string newName = "";
-
-        switch (tileType)
-        {
-            case 0: 
-            case 4:
-            case 5: newName = "Grass";
-                break;
-            case 1: newName = "Food";
-                break;
-            case 2: newName = "Wall";
-                break;
-            case 3: newName = "Water";
-                break;
-            case 6: newName = "FoodUsed";
-                break;
-        }
-
-        tilemap.GetTile(pos).name = newName;
     }
 
     private void MarkWaterAdjacentTiles(Tilemap tilemap)

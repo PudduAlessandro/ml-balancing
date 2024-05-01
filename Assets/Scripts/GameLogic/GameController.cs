@@ -1,174 +1,184 @@
+using System;
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
+    // Player related
     public GameObject playerPrefab;
-    private Player _player1, _player2;
+    public GameObject cpuPrefab;
+    private Player _player;
+    private CPUPlayer _cpuPlayer;
 
     // Map related
     public int selectedMapIndex;
+    public string mapString;
     private MapGenerator _mapGenerator;
     [SerializeField] private Tilemap tilemap;
-    [SerializeField] private Tilemap p1Overlay, p2Overlay;
-    [SerializeField] private Tile p1SelectionTile, p2SelectionTile;
-    private int _foodRespawnChance = 25; // 1 equals 0.1%
+    [SerializeField] private int foodRespawnChance = 25; // 1 equals 0.1%
 
     // Turn related
-    private Vector3Int _player1Selection, _player2Selection;
-    [FormerlySerializedAs("_player1Confirm")] [SerializeField] private bool player1Confirm = false;
-    [FormerlySerializedAs("_player2Confirm")] [SerializeField] private bool player2Confirm = false;
-    //private int _playerMoveSpeed = 1; // Used for smooth movement
-    public int turnCount = 0;
+    private Vector3Int _playerTileSelection, _cpuTileSelection;
+    [SerializeField] private int collectionGoal = 5;
 
-    [SerializeField] private int _collectionGoal = 5;
-    
-    
     // UI
     private UIController _uiController;
 
-    private enum GameType
-    {
-        PVP,
-        PVE,
-        EVE
-    }
 
-    [SerializeField] private GameType _gameType;
-    
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        _player1Selection = _player1.selectedPosition;
-        _player2Selection = _player2.selectedPosition;
-        
-        player1Confirm = _player1.turnConfirmed;
-        player2Confirm = _player2.turnConfirmed;
-        
-        if (player1Confirm && player2Confirm)
+        if (PlayerPrefs.HasKey("startByURL"))
         {
-            PlayTurn(_player1Selection, _player2Selection);
-            _uiController.UpdateUI();
+            var uri = new Uri(Application.absoluteURL);
+
+            string level = uri.GetComponents(UriComponents.Query, UriFormat.SafeUnescaped);
+
+            if (!string.IsNullOrEmpty(level))
+            {
+                var value = level.Split('=')[1];
+
+                if (Regex.IsMatch(value, @"\d{36}"))
+                {
+                    Debug.Log($"Parameter: {value}) ist in Ordnung");
+                    PlayerPrefs.SetString("map", DecodeMapString(value));
+                }
+                else
+                {
+                    Debug.Log($"Parameter: {value}) ist nicht in Ordnung");
+                    SceneManager.LoadScene("MainMenu");
+                }
+            }
+            else
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
         }
 
+        SetupGame();
     }
-
-    private void FixedUpdate()
-    {
-        
-    }
-
+    
+    
     public void SetupGame()
     {
+        if (PlayerPrefs.HasKey("map"))
+        {
+            mapString = PlayerPrefs.GetString("map");
+        }
+        
+        // MapGenerator is on the same object
         _mapGenerator = gameObject.GetComponent<MapGenerator>();
         _mapGenerator.selectedMap = (MapGenerator.Map)selectedMapIndex;
-
+        _mapGenerator.mapString = DecodeMapString(mapString);
+        
+        
+        
+        // Currently on separate object but can be moved
         _uiController = GameObject.Find("UIController").GetComponent<UIController>();
-        _uiController.collectionGoal = _collectionGoal;
-        
+        _uiController.collectionGoal = collectionGoal;
 
+        // Generate the map, using a string depending on selectedMapIndex
         tilemap = _mapGenerator.BuildMap();
-        SpawnPlayers();
         
+        // Create the players and position them on their spawn points
+        SpawnPlayers();
         _uiController.UpdateUI();
     }
-    
+
     private void SpawnPlayers()
     {
+        // Parent transform for both players
         Transform parentTransform = tilemap.transform.parent;
-        bool player1IsHuman = true;
-        bool player2IsHuman = true;
 
-        switch (_gameType)
-        {
-            case GameType.PVP: 
-                break;
-            case GameType.PVE:
-                player2IsHuman = false;
-                break;
-            case GameType.EVE:
-                player1IsHuman = false;
-                player2IsHuman = false;
-                break;
-        }
-        
-        // Instantiate
-        PlayerInput p1Input = PlayerInput.Instantiate(playerPrefab, 1, "Player1", pairWithDevice: Keyboard.current);
-        p1Input.GetComponent<Player>().SetupPlayer("Player 1", parentTransform, p1Overlay, tilemap, _mapGenerator.player1Spawn, p1SelectionTile, player1IsHuman, this);
-        _player1 = p1Input.gameObject.GetComponent<Player>();
-        _uiController.player1 = _player1;
+        // Create and setup the player
+        PlayerInput playerInput = PlayerInput.Instantiate(playerPrefab, 1, pairWithDevice: Keyboard.current);
+        _player = playerInput.GetComponent<Player>();
+        _player.Setup("Player 1", parentTransform, tilemap, _mapGenerator.player1Spawn, this);
+        _uiController.player = _player;
 
-
-        PlayerInput p2Input = PlayerInput.Instantiate(playerPrefab, 2, "Player2", pairWithDevice: Keyboard.current);
-        p2Input.GetComponent<Player>().SetupPlayer("Player 2", parentTransform, p2Overlay, tilemap, _mapGenerator.player2Spawn, p2SelectionTile, player2IsHuman, this);
-        _player2 = p2Input.gameObject.GetComponent<Player>();
-        _uiController.player2 = _player2;
-        
+        // Create and setup the CPU
+        _cpuPlayer = Instantiate(cpuPrefab, parentTransform).GetComponent<CPUPlayer>();
+        _cpuPlayer.Setup("Player 2", tilemap, _mapGenerator.player2Spawn, this);
+        _uiController.cpuPlayer = _cpuPlayer;
     }
 
-    private void PlayTurn(Vector3Int player1SelectedTile, Vector3Int player2SelectedTile)
+    public void UpdateGameStatus(Vector3Int p1NewPosition)
     {
-        RespawnFood();
-        
-        _player1.gameObject.transform.position = GetTileCenterPosition(player1SelectedTile);
-        
-        _player1.FinishTurn();
-        _player2.FinishTurn();
-        
-        if (tilemap.GetTile(_player1.currentPosition).name.Equals("Food"))
-        {
-            tilemap.SetTile(_player1.currentPosition, _mapGenerator.tiles[6]);
-        }
-        
-        _player2.gameObject.transform.position = GetTileCenterPosition(player2SelectedTile);
-        if (tilemap.GetTile(_player2.currentPosition).name.Equals("Food"))
-        {
-            tilemap.SetTile(_player2.currentPosition, _mapGenerator.tiles[6]);
-        }
+        _playerTileSelection = p1NewPosition;
+        _cpuTileSelection = _cpuPlayer.CPUMove();
 
+        PlayTurn();
+        _uiController.UpdateUI();
+        
         if (CheckForWinner())
         {
             return;
         }
-        
-        turnCount++;
-
-        if (_gameType == GameType.EVE)
-        {
-            StartCoroutine(CPUvsCPUTurn());
-        }
-        
-        if (_player1.playerType == Player.PlayerType.COMPUTER)
-        {
-            _player1.CPUInput();
-        }
-
-        if (_player2.playerType == Player.PlayerType.COMPUTER)
-        {
-            _player2.CPUInput();
-        }
     }
 
-    private IEnumerator CPUvsCPUTurn()
+    private void PlayTurn()
     {
-        yield return new WaitForSeconds(3);
+        RegrowFoodTiles();
         
-        _player1.CPUInput();
-        _player2.CPUInput();
+        _player.gameObject.transform.position = GetTileCenterPosition(_playerTileSelection);
+        _cpuPlayer.gameObject.transform.position = GetTileCenterPosition(_cpuTileSelection);
+
+        _player.UpdateStatus();
+        _cpuPlayer.UpdateStatus();
+        
+        if (tilemap.GetTile(_player.currentPosition).name.Contains("Food"))
+        {
+            tilemap.SetTile(_player.currentPosition,
+                tilemap.GetTile(_player.currentPosition).name.Contains("WAdjacent")
+                    ? _mapGenerator.tiles[6]
+                    : _mapGenerator.tiles[9]);
+        }
+        
+        if (tilemap.GetTile(_cpuPlayer.currentPosition).name.Contains("Food"))
+        {
+            tilemap.SetTile(_cpuPlayer.currentPosition,
+                tilemap.GetTile(_cpuPlayer.currentPosition).name.Contains("WAdjacent")
+                    ? _mapGenerator.tiles[6]
+                    : _mapGenerator.tiles[9]);
+        }
+        
     }
 
+    
+
+    private void RegrowFoodTiles()
+    {
+        for (var y = 0; y >= -5; y--)
+        {
+            for (var x = 0; x <= 5; x++)
+            {
+                var tilePos = new Vector3Int(x, y, 0);
+                
+                if (!tilemap.GetTile(tilePos).name.Contains("FoodUsed")) continue;
+                
+                var randomValue = Random.Range(0, 1000);
+
+                if (randomValue > foodRespawnChance) continue;
+
+                tilemap.SetTile(tilePos,
+                    tilemap.GetTile(tilePos).name.Contains("WAdjacent")
+                        ? _mapGenerator.tiles[8]
+                        : _mapGenerator.tiles[1]);
+            }
+        }
+    }
+    
+    private Vector3 GetTileCenterPosition(Vector3Int tileCoord)
+    {
+        return tilemap.CellToWorld(tileCoord) + new Vector3(0.5f, 0.5f, 0);
+    }
+    
     private bool CheckForWinner()
     {
         // 0: No winner;
@@ -178,54 +188,28 @@ public class GameController : MonoBehaviour
         
         int winner = 0;
         
-        if ((_player1.currentHealth == 0 && _player2.currentHealth == 0) || (_player1.collectedFood == _collectionGoal && _player2.collectedFood == _collectionGoal)) 
+        if ((_player.currentHealth == 0 && _cpuPlayer.currentHealth == 0) || (_player.collectedFood == collectionGoal && _cpuPlayer.collectedFood == collectionGoal)) 
         {
             winner = 3;
-        } else if (_player1.currentHealth == 0 || _player2.collectedFood == _collectionGoal)
+        } else if (_player.currentHealth == 0 || _cpuPlayer.collectedFood == collectionGoal)
         {
             winner = 2;
-        } else if (_player2.currentHealth == 0 || _player1.collectedFood == _collectionGoal)
+        } else if (_cpuPlayer.currentHealth == 0 || _player.collectedFood == collectionGoal)
         {
             winner = 1;
         }
 
         if (winner == 0) return false;
         
-        _player1.GetComponent<PlayerInput>().enabled = false;
-        _player2.GetComponent<PlayerInput>().enabled = false;
-            
+        _player.GetComponent<PlayerInput>().enabled = false;
+
         _uiController.UpdateWinner(winner);
 
         return true;
     }
-
-    private void RespawnFood()
-    {
-        int xCoord = 0;
-        int yCoord = 0;
-
-        for (int y = 0; y >= -5; y--)
-        {
-            for (int x = 0; x <= 5; x++)
-            {
-                Vector3Int tilePos = new Vector3Int(x, y, 0);
-                if (tilemap.GetTile(tilePos).name.Equals("FoodUsed"))
-                {
-                    int randomValue = Random.Range(0, 1001);
-
-                    if (randomValue <= _foodRespawnChance)
-                    {
-                        tilemap.SetTile(tilePos, _mapGenerator.tiles[1]);
-                    }
-                }
-            }
-        }
-    }
-
     
-
-    private Vector3 GetTileCenterPosition(Vector3Int tileCoordinate)
+    private string DecodeMapString(string mapString)
     {
-        return tilemap.CellToWorld(tileCoordinate) + new Vector3(0.5f, 0.5f, 0);
+        return Regex.Replace(mapString, @"(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", "$1 $2 $3 $4 $5 $6,").TrimEnd(',');
     }
 }

@@ -201,19 +201,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2908584425829728867}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03fc41c6ed5b9524db3548c439749acd, type: 3}
+  m_Script: {fileID: 11500000, guid: 9018853ded1f53c4c8799534109ecda5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 0
-  _currentHealth: 0
-  _maxHunger: 0
-  _currentHunger: 0
-  _maxThirst: 0
-  _currentThirst: 0
-  _rotationSpeed: 3
-  isPlayerTwo: 0
+  currentHealth: 100
+  currentFood: 100
+  currentWater: 100
+  collectedFood: 0
+  gameController: {fileID: 0}
   currentPosition: {x: 0, y: 0, z: 0}
-  selectionTile: {fileID: 11400000, guid: b447ff297fa36ab419b6aa1ac2275958, type: 2}
+  selectedPosition: {x: 0, y: 0, z: 1}
 --- !u!114 &7696615433049806139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,39 +301,39 @@ MonoBehaviour:
     m_ActionId: 6a1cb7e9-5a03-4813-903d-f73da1d2312a
     m_ActionName: Selection/Select Right Tile[/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f1255886-838c-4038-8d29-ab73c42c3a72
-    m_ActionName: Selection/Confirm Turn[/Keyboard/e]
+      m_Calls: []
+    m_ActionId: 0f0cad5c-0e6a-4354-8213-f05b6731d58f
+    m_ActionName: Editor/Click[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5795678487260174421}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: HumanInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f669ebed-d145-400a-a817-215c9b4e9f0b
-    m_ActionName: Selection/Cancel[/Keyboard/q]
+      m_Calls: []
+    m_ActionId: 4b0cb4c1-51e9-4307-a305-ed9fed9fa9e3
+    m_ActionName: Editor/SelectGrass[/Keyboard/1,/Keyboard/numpad1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 297fad67-a0ee-41df-a610-a7f093ff339c
+    m_ActionName: Editor/SelectWater[/Keyboard/2,/Keyboard/numpad2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 567d1e51-ff76-4f73-bb0a-247dedaafd00
+    m_ActionName: Editor/SelectWall[/Keyboard/3,/Keyboard/numpad3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 47d68cc5-b0fb-4d59-892b-73516e06edce
+    m_ActionName: Editor/SelectFood[/Keyboard/4,/Keyboard/numpad4]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 867ff57b-ac87-48a3-aa0b-2fc6fe7268ae
+    m_ActionName: Editor/SelectPlayer[/Keyboard/5,/Keyboard/numpad5]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42a106db-822b-43f2-a740-20043772e020
+    m_ActionName: Editor/SelectOpponent[/Keyboard/6,/Keyboard/numpad6]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cf434aaa-90a1-4986-89dc-f35360e6e456
+    m_ActionName: Editor/Point[/Mouse/position]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Player1
   m_DefaultActionMap: Selection
   m_SplitScreenIndex: 0
   m_Camera: {fileID: 0}
