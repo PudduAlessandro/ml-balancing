@@ -1,20 +1,28 @@
 # Small Unity Project to test Machine Learning based Level balancing 
 
-The game itself can be played on the Gitlab page of this project:
-https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/
+The game can be played [here](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/)
+
 
 
 The index.html will be updated to not launch the game, instead the game is supposed to load a specific map depending on the page.
 
 Map Links:
-[1](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=003021000202020010200500100210100410)
-[2](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000501221131000123010203002421300000)
-[3](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=022010000130112233320250011211030041)
-[4](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=210511021031020103010004002320300002)
-[5](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000021000202020010200530100210100410)
-[6](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000521221131000123010003002421300000)
-[7](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=122012000130102233320050110111230040)
-[8](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000521221131000123010003002421300000)
+
+[Water Swap - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=003021000202020010200500100210100410)
+
+[Mountain Block - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000501221131000123010203002421300000)
+
+[Equalize Line - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=022010000130112233320250011211030041)
+
+[Mountain Block 2 - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=210511021031020103010004002320300002)
+
+[Water Swap - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000021000202020010200530100210100410)
+
+[Mountain Block - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000521221131000123010003002421300000)
+
+[Equalize Line - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=122012000130102233320050110111230040)
+
+[Mountain Block 2 - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000521221131000123010003002421300000)
 
 ### Setup instructions
 
