@@ -208,8 +208,10 @@ public class GameController : MonoBehaviour
         return true;
     }
     
-    private string DecodeMapString(string mapString)
+    private string DecodeMapString(string input)
     {
-        return Regex.Replace(mapString, @"(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", "$1 $2 $3 $4 $5 $6,").TrimEnd(',');
+        input = Regex.Replace(input, @"(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", "$1 $2 $3 $4 $5 $6,");
+        var decodedString = input[..^2];
+        return decodedString;
     }
 }

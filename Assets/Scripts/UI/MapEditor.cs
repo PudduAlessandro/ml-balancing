@@ -169,8 +169,7 @@ public class MapEditor : MonoBehaviour
                                     mapStringOutput += tileValue;
                                 }
 
-                            } 
-                            mapStringOutput = mapStringOutput.Remove(mapStringOutput.Length - 1); 
+                            }
                             UpdateMapString(mapStringOutput, true);
                         }
                         else
@@ -279,25 +278,7 @@ public class MapEditor : MonoBehaviour
     
     
     }
-    
-    private void SpawnPlayers()
-    {
-        // Parent transform for both players
-        Transform parentTransform = _tilemap.transform.parent;
 
-        // Create and setup the player
-        playerObject = Instantiate(playerPrefab, parentTransform);
-        playerObject.transform.position = _tilemap.CellToWorld(_player1Spawn) + new Vector3(0.5f, 0.5f, 0);
-        var playerSprite = playerObject.transform.Find("PlayerSprite").gameObject;
-        playerSprite.GetComponent<SpriteRenderer>().color = Color.red;
-
-        // Create and setup the CPU
-        cpuObject = Instantiate(cpuPrefab, parentTransform);
-        cpuObject.transform.position = _tilemap.CellToWorld(_player2Spawn) + new Vector3(0.5f, 0.5f, 0);
-        var cpuSprite = cpuObject.transform.Find("PlayerSprite").gameObject;
-        cpuSprite.GetComponent<SpriteRenderer>().color = Color.yellow;
-    }
-    
     private bool FindPath(Vector3Int startPosition, Vector3Int targetTilePosition)
     {
         HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
