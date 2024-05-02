@@ -7,12 +7,12 @@ using UnityEngine;
 
 public class ToClipboard : MonoBehaviour
 {
-    public TMP_InputField codeTextField;
+    public TextMeshProUGUI codeTextField;
     private TextMeshProUGUI buttonText;
 
     private void Start()
     {
-        buttonText = GameObject.Find("Text").GetComponent<TextMeshProUGUI>();
+        buttonText = transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
     }
 
     public void CopyToClipboard()
@@ -23,7 +23,8 @@ public class ToClipboard : MonoBehaviour
     private IEnumerator Copy()
     {
         var textToCopy = "";
-        
+        var mapString = codeTextField.text;
+
         switch (gameObject.name)
         {
             case "MapstringCopy":
@@ -43,49 +44,38 @@ public class ToClipboard : MonoBehaviour
             {
                 if (!Application.isEditor)
                 {
-                    var baseURL = Application.absoluteURL;
-                    var mapString = codeTextField.text;
+                    var url = Application.absoluteURL;
 
-                    mapString = mapString.Replace(" ", "").Replace(",", "");
+                    if (url.Contains("level"))
+                    {
+                        var urlParts = url.Split("=");
 
-                    GUIUtility.systemCopyBuffer = mapString;
+                        textToCopy = urlParts[0] + "=" + mapString;
+                    }
+                    else
+                    {
+                        textToCopy = url + "?level=" + mapString;
+                    }
+                    
+                    GUIUtility.systemCopyBuffer = textToCopy;
                     buttonText.text = "Copied!";
         
                     yield return new WaitForSeconds(1);
         
                     buttonText.text = "Copy URL";
-                    
-                    
-                    
-                    //var regex = new Regex(@"\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d")
-                    
-                    
-                    
-                    //mapString = Regex.Replace(mapString, @"\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d,\d\s\d\s\d\s\d\s\d\s\d")
-
                 } 
                 else 
                 {
-                    var mapString = codeTextField.text;
-
-                    mapString = mapString.Replace(" ", "").Replace(",", "");
-
                     GUIUtility.systemCopyBuffer = mapString;
                     buttonText.text = "Copied!";
         
                     yield return new WaitForSeconds(1);
-        
+                    
                     buttonText.text = "Copy URL";
                 }
                 break;
             }
         }
-    }
-
-    public static string Base64Encode(string plainText) 
-    {
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-        return System.Convert.ToBase64String(plainTextBytes);
     }
 
 }
