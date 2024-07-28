@@ -1,44 +1,19 @@
-# Small Unity Project to test Machine Learning based Level balancing 
+# Game prototype to test ML-based level balancing 
 
-The game can be played [here](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/)
+This prototype consists of a small survival game, in which two players, one human and one computer controlled, are required to collected necessary resources, such as water and food in order to survive. The game contains 8 levels (preset), which were created and balanced using reinforcement learning. It also features a fully functional level editor, which allows players to create custom levels and share them with others.
+
+TODO: Additional description
+
+The game can be played [here](https://puddual.github.io/ml-balancing/)
 
 
-
-The index.html will be updated to not launch the game, instead the game is supposed to load a specific map depending on the page.
-
-Map Links:
-
-[Water Swap - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=003021000202020010200500100210100410)
-
-[Mountain Block - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000501221131000123010203002421300000)
-
-[Equalize Line - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=022010000130112233320250011211030041)
-
-[Mountain Block 2 - Unbalanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=210511021031020103010004002320300002)
-
-[Water Swap - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000021000202020010200530100210100410)
-
-[Mountain Block - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000521221131000123010003002421300000)
-
-[Equalize Line - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=122012000130102233320050110111230040)
-
-[Mountain Block 2 - Balanced](https://ml-balancing-ap110-a13a7bab0427304dbcbcfd67b468c16c602b047be658.pages.mi.hdm-stuttgart.de/?level=000521221131000123010003002421300000)
-
-### Setup instructions
-
-#### Opening the project in the editor
-
-1. If not yet installed: Install [Unity Hub](https://unity.com/de/download)
-
-2. Install the correct Unity Editor Version (Currently LTS [2022.3.13f1](unityhub://2022.3.13f1/5f90a5ebde0f) - Link requires Unity Hub to be installed)
-
-3. Clone the repository to the directory of your choice
-
-4. Open the resulting folder in Unity Hub (*Projects* tab -> Add -> Navigate to and open *ml-balancing*)
+#### Features
+- 8 Preset levels, which were created using reinforcement learning and used as part of a user study
+- Level editor to create and share self-made levels
 
 
 
-
+This game prototype was developed as part of my bachelor's thesis for the study course Computer Science and Media (german: Medieninformatik) at Stuttgart Media University.
 
 #### Credits
 Used tilesets:
