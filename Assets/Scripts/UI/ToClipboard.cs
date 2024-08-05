@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,9 @@ public class ToClipboard : MonoBehaviour
         StartCoroutine(Copy());
     }
 
+    [DllImport("__Internal")]
+    private static extern void CopyToClipboardJS(string levelCode);
+
     private IEnumerator Copy()
     {
         var textToCopy = "";
@@ -29,10 +33,16 @@ public class ToClipboard : MonoBehaviour
         {
             case "MapstringCopy":
             {
-                textToCopy = codeTextField.text;
+                textToCopy = mapString;
                 
                 GUIUtility.systemCopyBuffer = textToCopy;
                 buttonText.text = "Copied!";
+
+                if (Application.platform == RuntimePlatform.WebGLPlayer)
+                {
+                    CopyToClipboardJS(textToCopy);
+                    Debug.Log(textToCopy);
+                }
         
                 yield return new WaitForSeconds(1);
         
@@ -59,6 +69,12 @@ public class ToClipboard : MonoBehaviour
                     
                     GUIUtility.systemCopyBuffer = textToCopy;
                     buttonText.text = "Copied!";
+                    
+                    if (Application.platform == RuntimePlatform.WebGLPlayer)
+                    {
+                        CopyToClipboardJS(textToCopy);
+                        Debug.Log(textToCopy);
+                    }
         
                     yield return new WaitForSeconds(1);
         
@@ -68,6 +84,11 @@ public class ToClipboard : MonoBehaviour
                 {
                     GUIUtility.systemCopyBuffer = mapString;
                     buttonText.text = "Copied!";
+                    
+                    if (Application.platform == RuntimePlatform.WebGLPlayer)
+                    {
+                        CopyToClipboardJS(mapString);
+                    }
         
                     yield return new WaitForSeconds(1);
                     

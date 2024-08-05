@@ -189,12 +189,12 @@ public class MapEditor : MonoBehaviour
             }
             else
             {
-                UpdateMapString("More than one opponent tile placed!", false);
+                UpdateMapString("Too many or no opponent tiles placed!", false);
             }
         }
         else
         {
-            UpdateMapString("More than one player tile placed!", false);
+            UpdateMapString("Too many or no player tiles placed!", false);
         }
     }
 
