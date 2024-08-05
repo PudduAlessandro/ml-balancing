@@ -153,9 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 100
-  currentHunger: 100
-  currentThirst: 100
-  _GameController: {fileID: 0}
+  currentFood: 100
+  currentWater: 100
+  gameController: {fileID: 0}
   collectedFood: 0
   currentPosition: {x: 0, y: 0, z: 0}
   selectedPosition: {x: 0, y: 0, z: 1}
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
   targetTileName: 
-  startPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   lockCurrentTargetType: 0
 --- !u!1 &3540936411739781507
@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 2674926176264678779}
   - component: {fileID: 527041816013084043}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: WaterText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' W'
+  m_text: W
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -352,8 +352,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 8724869772526074103}
   - component: {fileID: 97737108604330389}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: FoodText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' N'
+  m_text: F
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -643,7 +643,7 @@ GameObject:
   - component: {fileID: 7427386537153837547}
   - component: {fileID: 2948201241856052831}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -696,7 +696,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' L'
+  m_text: H
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
