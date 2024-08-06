@@ -23,9 +23,10 @@
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">Vollbild →</div>
+        <div id="unity-build-title">Fullscreen →</div>
       </div>
     </div>
+    <div id="description">This prototype was developed as part of a scientific work. Click <a href="/about.html">here</a> for further information.</div>
     <script>
 
       var container = document.querySelector("#unity-container");
@@ -82,7 +83,7 @@
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
 
-        alert("Dieses Spiel wurde nicht für Mobilgeräte entwickelt und kann nicht gespielt werden!\n\nDer Tab wird jetzt geschlossen");
+        alert("This prototype was not developed for mobile devices and can therefore not be played!\n\nThe tab will close now");
 
         window.close();
 

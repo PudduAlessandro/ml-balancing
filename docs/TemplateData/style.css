@@ -14,3 +14,29 @@ body { padding: 0; margin: 0 }
 #unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
 #unity-fullscreen-button { cursor:pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
 #unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+#description {margin: auto;text-align: center; padding: 30px; color: #ffffff;}
+
+a:link {
+    color: rgb(243, 219, 0);
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: rgb(255, 217, 0);
+    background-color: transparent;
+    text-decoration: underline;
+}  
+
+a:hover {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
