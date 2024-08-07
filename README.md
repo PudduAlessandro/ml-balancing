@@ -4,7 +4,7 @@ This prototype consists of a small survival game, in which two players, one huma
 
 TODO: Additional description
 
-The game can be played [here](https://puddual.github.io/ml-balancing/)
+The game can be played [here](https://puddualessandro.github.io/ml-balancing/)
 
 
 #### Features
@@ -13,10 +13,13 @@ The game can be played [here](https://puddual.github.io/ml-balancing/)
 
 
 
-This game prototype was developed as part of my bachelor's thesis for the study course Computer Science and Media (german: Medieninformatik) at Stuttgart Media University.
+This game prototype was originally developed as part of my bachelor's thesis for the study course Computer Science and Media (german: Medieninformatik) at Stuttgart Media University. It was also developed in parallel for a scientific work, in which human players were asked to fill out a survey about the percieved balance/fairness of the generated (preset) levels.
+
+Further information and the results of the scientific work can be read in the paper '**It might be balanced, but is it actually good? An Empirical Evaluation of Game Level Balancing**' ([arXiv](https://arxiv.org/abs/2407.11396))
+
 
 #### Credits
-Used tilesets:
+Used tileset textures:
 
 - [Free RPG Tileset](https://pipoya.itch.io/pipoya-rpg-tileset-32x32) by Pipoya on Itch.io
 - [RPG Nature Tileset](https://stealthix.itch.io/rpg-nature-tileset) by Stealthix on Itch.io
