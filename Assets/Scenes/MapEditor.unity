@@ -703,7 +703,6 @@ GameObject:
   - component: {fileID: 189684557}
   - component: {fileID: 189684556}
   - component: {fileID: 189684555}
-  - component: {fileID: 189684554}
   m_Layer: 5
   m_Name: URLCopy
   m_TagString: Untagged
@@ -731,19 +730,6 @@ RectTransform:
   m_AnchoredPosition: {x: -148.65445, y: -37.2}
   m_SizeDelta: {x: 113.4911, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &189684554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189684552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25828043fd9fd504d8233b41a1dc7b08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  codeTextField: {fileID: 191249442}
 --- !u!114 &189684555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,9 +774,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 189684554}
-        m_TargetAssemblyTypeName: ToClipboard, Assembly-CSharp
-        m_MethodName: CopyToClipboard
+      - m_Target: {fileID: 2145128842}
+        m_TargetAssemblyTypeName: MapEditorController, Assembly-CSharp
+        m_MethodName: CopyMapURL
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2401,7 +2387,6 @@ GameObject:
   - component: {fileID: 835896509}
   - component: {fileID: 835896508}
   - component: {fileID: 835896507}
-  - component: {fileID: 835896506}
   m_Layer: 5
   m_Name: MapstringCopy
   m_TagString: Untagged
@@ -2419,7 +2404,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 961713304}
   m_Father: {fileID: 1328216119}
@@ -2429,19 +2414,6 @@ RectTransform:
   m_AnchoredPosition: {x: -295.33, y: -37.2}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &835896506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 835896504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25828043fd9fd504d8233b41a1dc7b08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  codeTextField: {fileID: 191249442}
 --- !u!114 &835896507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2486,9 +2458,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 835896506}
-        m_TargetAssemblyTypeName: ToClipboard, Assembly-CSharp
-        m_MethodName: CopyToClipboard
+      - m_Target: {fileID: 2145128842}
+        m_TargetAssemblyTypeName: MapEditorController, Assembly-CSharp
+        m_MethodName: CopyMapString
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5074,11 +5046,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144731313}
   m_CullTransparentMesh: 1
+--- !u!1 &2145128841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2145128843}
+  - component: {fileID: 2145128842}
+  m_Layer: 0
+  m_Name: MapEditorController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2145128842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145128841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b710048493e82a14d89a7f0da5ccfab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  codeField: {fileID: 1328216120}
+--- !u!4 &2145128843
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145128841}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 903.689, y: 545.8357, z: -21.205814}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1334596578}
+  - {fileID: 2145128843}
   - {fileID: 1004929182}
   - {fileID: 614428635}
   - {fileID: 1291325357}
