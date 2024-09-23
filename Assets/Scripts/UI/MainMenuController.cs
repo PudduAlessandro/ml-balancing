@@ -12,7 +12,7 @@ public class MainMenuController : MonoBehaviour
 {
     [SerializeField] private Tile[] tiles;
     private TextMeshProUGUI _errorLabel;
-    
+
     private static MainMenuController _instance;
     
     bool _waterExists;
@@ -40,6 +40,7 @@ public class MainMenuController : MonoBehaviour
             return _instance;
         }
     }
+    
     
     private void Start()
     {
@@ -79,7 +80,6 @@ public class MainMenuController : MonoBehaviour
 
                 if (Regex.IsMatch(value, @"^[0-5]{36}$"))
                 {
-                    Debug.Log($"Parameter: {value}) is valid");
 
                     string mapString = DecodeMapString(value);
 
@@ -105,7 +105,17 @@ public class MainMenuController : MonoBehaviour
             }
         }
     }
-
+    
+    public void SetInputFieldText(string text)
+    {
+        if (!SceneManager.GetActiveScene().name.Equals("MainMenu")) return;
+        
+        var codeInput = GameObject.Find("InputField").GetComponent<TMP_InputField>();
+        if (codeInput.isFocused) 
+        {
+            codeInput.text = text; 
+        }
+    }
     private bool BuildAndValidateMap(string mapString)
     {
         var tempTilemap = new GameObject().AddComponent<Tilemap>();

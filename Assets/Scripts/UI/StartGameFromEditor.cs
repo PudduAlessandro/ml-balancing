@@ -9,7 +9,7 @@ public class StartGameFromEditor : MonoBehaviour
 {
     //TODO: Create main menu wide controller instead of one script per button 
     
-    public TextMeshProUGUI codeField;
+    public TMP_InputField codeField;
 
     private Button button;
     // Start is called before the first frame update

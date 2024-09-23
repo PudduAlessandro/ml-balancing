@@ -46,12 +46,10 @@ public class GameController : MonoBehaviour
 
                 if (Regex.IsMatch(value, @"\d{36}"))
                 {
-                    Debug.Log($"Parameter: {value}) ist in Ordnung");
                     PlayerPrefs.SetString("map", DecodeMapString(value));
                 }
                 else
                 {
-                    Debug.Log($"Parameter: {value}) ist nicht in Ordnung");
                     SceneManager.LoadScene("MainMenu");
                 }
             }
@@ -65,7 +63,7 @@ public class GameController : MonoBehaviour
     }
     
     
-    public void SetupGame()
+    private void SetupGame()
     {
         if (PlayerPrefs.HasKey("map"))
         {
@@ -211,7 +209,9 @@ public class GameController : MonoBehaviour
     private string DecodeMapString(string input)
     {
         input = Regex.Replace(input, @"(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", "$1 $2 $3 $4 $5 $6,");
-        var decodedString = input[..^2];
+        input = input.TrimEnd(',');
+
+        var decodedString = input;
         return decodedString;
     }
 }

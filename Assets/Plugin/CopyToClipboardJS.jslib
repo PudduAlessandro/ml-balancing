@@ -1,7 +1,7 @@
 ﻿mergeInto(LibraryManager.library, {
     CopyToClipboardJS: function(levelCode){
-       var strToCopy = UTF8ToString(levelCode);
-       strToCopy = strToCopy.replace(/\u200B/g,'');
+       levelCode = UTF8ToString(levelCode);
+       var strToCopy = levelCode.replace(/[\u200B-\u200D\uFEFF]/g,'');
     
        navigator.clipboard.writeText(strToCopy).then(function() {
           console.log(strToCopy);
