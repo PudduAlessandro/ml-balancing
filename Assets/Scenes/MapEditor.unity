@@ -1997,7 +1997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1beca3aedff7f41974e5ceb6434926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  codeField: {fileID: 191249442}
+  codeField: {fileID: 1328216120}
 --- !u!1 &513459208
 GameObject:
   m_ObjectHideFlags: 0
@@ -3550,7 +3550,7 @@ MonoBehaviour:
   m_Text: 400002000000001100001100000000300005
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
-  m_ReadOnly: 1
+  m_ReadOnly: 0
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_OnFocusSelectAll: 1
